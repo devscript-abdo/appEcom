@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->default('user.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
-            $table->foreignId('city_id')->references('id')->on('cities')->nullable();
+           // $table->foreignId('city_id')->references('id')->on('cities')->nullable();
             $table->boolean('approved')->default(true);
             $table->enum('locale',['ar','fr','en'])->default('fr');
             $table->timestamps();

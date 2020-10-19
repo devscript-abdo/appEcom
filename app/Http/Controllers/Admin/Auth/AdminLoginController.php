@@ -37,7 +37,7 @@ class AdminLoginController extends Controller
     public function showLoginForm()
     {
        //$ok = City::where('id',5)->value('name');
-        return view('Login.login.index');
+        return view('theme_a.login.index');
     }
 
     public function logout(Request $request)

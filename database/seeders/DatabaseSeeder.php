@@ -13,13 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-       // \App\Models\City::factory(3)->create();
-      //  \App\Models\User::factory(10)->create();
-         \App\Models\Admin::factory()
-         ->count(3)
-         ->forCity([
-            'name' => 'Casablanca',
-        ])
-         ->create();
+        // \App\Models\City::factory(3)->create();
+        //  \App\Models\User::factory(10)->create();
+        \App\Models\Admin::factory()
+            ->count(3)
+            ->forVille([
+                'name' => 'Casablanca',
+                'slug' => 'Casablanca city'
+            ])
+            ->create();
     }
 }

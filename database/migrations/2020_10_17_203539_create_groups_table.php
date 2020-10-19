@@ -23,6 +23,8 @@ class CreateGroupsTable extends Migration
             $table->string('adminName', 50)->nullable();
             $table->boolean('active')->default(true);
             $table->bigInteger('parent_id')->default(0);
+            $table->bigInteger('admin_id')->unsigned();
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
            // $table->string('about', 20)->default('haymacproduction');
             $table->timestamps();
         });
