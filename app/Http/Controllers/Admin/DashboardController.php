@@ -11,6 +11,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('Admin.Home.index');
+        return view('theme_a.dashboard.index');
     }
 }

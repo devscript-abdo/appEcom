@@ -22,11 +22,13 @@
             
             <div class="page">
 
+                  @include('theme_a.layouts.parts.__top')
+
                   @yield('content')
 
                     <!-------------------------------------->
                     <!-------------------------------------->
-                    @include('theme_a.layouts.parts.footer')
+                  @include('theme_a.layouts.parts.footer')
                     <!-------------------------------------->
                     <!-------------------------------------->
             </div>   

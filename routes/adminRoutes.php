@@ -19,9 +19,11 @@ Route::group([
     Route::get('/account', [AccountController::class, 'index'])->name('account');
 
     Route::group(['prefix' => 'admins'], function () {
+
         Route::get('/', [AdminController::class, 'index'])->name('admins');
         Route::get('/add', [AdminController::class, 'create'])->name('admins.add');
         Route::post('/add', [AdminController::class, 'store'])->name('admins.add');
+        
     });
 
     Route::group(['prefix' => 'roles'], function () {

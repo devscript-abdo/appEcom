@@ -41,7 +41,7 @@
                     --}}
                     <div class="form-group">
                         <label class="form-label">{{ __('auth.loginEmail') }}</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="emailHelp" value="{{ old('email') }}" placeholder="{{ __('auth.loginEmailPlaceHolder') }}">
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="emailHelp" value="{{ old('email') ?? 'abdelgha4or@gmail.com' }}" placeholder="{{ __('auth.loginEmailPlaceHolder') }}">
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -54,7 +54,7 @@
                              <a href="{{ route('password.request') }}" class="float-right small">{{ __('auth.loginForgetPassword') }}</a>
                             @endif
                         </label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="{{ __('auth.loginPasswordPlaceHolder') }}">
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" value="123456789@" placeholder="{{ __('auth.loginPasswordPlaceHolder') }}">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

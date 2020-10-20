@@ -70,6 +70,14 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label class="form-label">City</label>
+                            <select name="ville" class="custom-select">
+                                @foreach($villes as $ville)
+                            <option value="{{$ville->id}}-{{$ville->slug}}">{{$ville->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Address</label>
                             <input type="text" name="address" class="form-control  @error('address') is-invalid @enderror" value="{{old('address')}}" placeholder="address">
                             @error('address')

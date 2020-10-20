@@ -4,7 +4,8 @@
 <script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
-
+@stack('scripts')
 <script src="{{asset('assets/js/core.js')}}"></script>
 <script src="{{asset('assets/js/page/project-index.js')}}"></script>
 <!----powered by Elmarzougui Abdelghafour at HaymacProduction----->
+<livewire:scripts />

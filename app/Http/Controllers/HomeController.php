@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\Admin;
+use App\Models\City;
 use Illuminate\Http\Request;
-
-use function Ramsey\Uuid\v1;
 
 class HomeController extends Controller
 {
@@ -24,18 +23,22 @@ class HomeController extends Controller
         ]);
     }
 
+    public function registerGet()
+    {
+        $villes = City::select('name', 'slug', 'id')->get();
+        return view('theme_a.register.index', compact('villes'));
+    }
     public function register(RegisterRequest $request)
     {
+
         $admin = new Admin();
         $admin->nom = $request->nom;
         $admin->prenom = $request->prenom;
         $admin->tele = $request->tele;
         $admin->email = $request->email;
         $admin->address = $request->address;
-        // $admin->city = $request->ville;
-        // $admin->role = $request->role;
         $admin->password = $request->password;
-        $admin->ville()->associate(1);
+        $admin->ville()->associate($request->ville[0]);
         if ($admin->save()) {
             return redirect()->back()->withGood('le compte a bien été Crée');
         }
