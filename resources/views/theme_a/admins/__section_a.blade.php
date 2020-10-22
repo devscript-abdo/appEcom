@@ -8,7 +8,7 @@
                             <ul class="nav nav-tabs b-none">
                                 <li class="nav-item"><a class="nav-link active" id="list-tab" data-toggle="tab" href="#list"><i class="fa fa-list-ul"></i> {{__('adminCrud.admin.list')}}</a></li>
                                 {{--<li class="nav-item"><a class="nav-link" id="grid-tab" data-toggle="tab" href="#grid"><i class="fa fa-th"></i> {{__('adminCrud.admin.grid')}}</a></li>--}}
-                            <li class="nav-item"><a class="nav-link" id="addnew-tab" data-toggle="tab" href="#addnew"><i class="fa fa-plus"></i>{{__('adminCrud.admin.add')}}</a></li>
+                                {{--<li class="nav-item"><a class="nav-link" id="addnew-tab" data-toggle="tab" href="#addnew"><i class="fa fa-plus"></i>{{__('adminCrud.admin.add')}}</a></li>--}}
                             </ul>
                             <div class="d-flex align-items-center sort_stat">
                                 <div class="d-flex">

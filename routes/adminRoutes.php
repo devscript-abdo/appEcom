@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Auth\AccountController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\DevlopperController;
 
 Route::group([
 
@@ -34,6 +35,10 @@ Route::group([
     Route::group(['prefix' => 'cities'], function () {
         Route::get('/', [CityController::class, 'index'])->name('cities');
         Route::post('/', [CityController::class, 'store'])->name('cities');
+    });
+
+    Route::group(['prefix'=>'devlopper'],function(){
+        Route::get('/truncate',[DevlopperController::class,'truncateData'])->name('truncate');
     });
 });
 /*

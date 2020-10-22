@@ -89,7 +89,7 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                         <label class="form-label">{{__('adminCrud.admin.password')}}</label>
-                        <input type="text" wire:model.defer="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" onclick="generatePassword()" placeholder="{{__('adminCrud.admin.password')}}">
+                        <input type="text" wire:model.defer="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" onclick="generatePassword()" value="" placeholder="{{__('adminCrud.admin.password')}}">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

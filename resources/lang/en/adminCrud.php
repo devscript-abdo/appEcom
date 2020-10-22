@@ -15,7 +15,7 @@ return [
 
     'admin.list' => 'List',
     'admin.grid' => 'Grid',
-    'admin.add' => 'add new admin',
+    'admin.add' => 'Add new admin',
 
     /****** admin add form */
     'admin.nom' => 'First name',
@@ -27,6 +27,7 @@ return [
     'admin.role' => 'Default role',
     'admin.address' => 'Enter Address',
     'admin.add.btn' => 'Add',
+    'admin.update.btn'=>'update',
     /******Created/Non Created message */
     'admin.added.ok' => 'account successfully created',
     'admin.added.no' => 'problem when add this account',

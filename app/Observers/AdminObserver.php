@@ -19,7 +19,7 @@ class AdminObserver
 
     public function __construct()
     {
-        $this->admins = Admin::role('user')->get();
+      //  $this->admins = Admin::role('user')->get();
     }
 
     /**
@@ -28,8 +28,8 @@ class AdminObserver
     public function created(Admin $admin)
     {
 
-       // dd($admin);
-        Notification::send($this->admins, new CreateAdminNotification($admin));
+        // dd($admin);
+        // Notification::send($this->admins, new CreateAdminNotification($admin));
     }
 
     /**
@@ -41,6 +41,7 @@ class AdminObserver
     public function updated(Admin $admin)
     {
         //
+        //   Notification::send($this->admins, new CreateAdminNotification($admin));
     }
 
     /**

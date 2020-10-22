@@ -2,9 +2,10 @@
     <div class="container-fluid">
         <div class="tab-content">
            {{--@include('theme_a.admins.__list')--}} 
-            <livewire:admin-list />
+            <livewire:admins />
             {{--@include('theme_a.admins.__grid')--}}
-            @include('theme_a.admins.__add')
+          
+            {{--@include('theme_a.admins.__add')--}}
         </div>
     </div>
 </div>

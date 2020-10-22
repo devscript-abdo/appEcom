@@ -30,6 +30,7 @@ class CreateAdminsTable extends Migration
             $table->foreignId('city_id')->references('id')->on('cities')->nullable();
             $table->boolean('approved')->default(true);
             $table->enum('locale',['ar','fr','en'])->default('fr');
+            $table->enum('sexe',['male','female'])->nullable();
             $table->timestamps();
         });
     }

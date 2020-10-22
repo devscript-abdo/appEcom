@@ -1,4 +1,9 @@
 <div>
+    @if($isUpdate)
+        @include('livewire.__update')
+    @else
+        @include('livewire.__create')
+    @endif
     <div class="tab-pane fade show active" id="list" role="tabpanel">
         <div class="row clearfix">
             <div class="col-lg-12">
@@ -24,10 +29,13 @@
                                         <div class="text-muted">{{$admin->email}}</div>
                                     </td>
                                     <td class="hidden-sm">
+                                        <div class="text-muted">{{$admin->ville->name}}</div>                                                
+                                    </td>
+                                    <td class="hidden-sm">
                                         <div class="text-muted">{{$admin->address}}</div>                                                
                                     </td>
                                     <td class="text-right">
-                                        <a class="btn btn-sm btn-link" href="javascript:void(0)" data-toggle="tooltip" title="Phone"><i class="fa fa-phone"></i></a>
+                                        {{--<a class="btn btn-sm btn-link" href="javascript:void(0)" data-toggle="tooltip" title="Phone"><i class="fa fa-phone"></i></a>--}}
                                         <a  wire:click="editAdmin({{$admin->id}})" class="btn btn-sm btn-link" href="javascript:void(0)" data-toggle="tooltip" title="Edite"><i class="fa fa-edit"></i></a>
                                         <a  wire:click="deleteAdmin({{$admin->id}})" class="btn btn-sm btn-link hidden-xs js-sweetalert" data-type="confirm" href="javascript:void(0)" data-toggle="tooltip" title="Delete"><i class="fa fa-trash"></i></a>
                                     </td>
