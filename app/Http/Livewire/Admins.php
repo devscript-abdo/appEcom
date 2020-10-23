@@ -72,7 +72,7 @@ class Admins extends Component
             'address' => 'required|string',
             'ville' => 'required|integer',
             'role' => 'required|integer',
-            'password_confirmation' => 'required|min:4',
+           // 'password_confirmation' => 'required|min:4',
             'password' => 'required|min:4'
         ]);
 
@@ -112,37 +112,36 @@ class Admins extends Component
     public function update()
     {
         // $this->authorize('update', $this->adminId);
-        if (Gate::allows('update')) {
-            // The current user can update the post...
-            $this->validate([
-                'nom' => 'required|string',
-                'prenom' => 'required|string',
-                'tele' => 'required|numeric|unique:admins,tele,' . $this->adminId,
-                'email' => 'required|email|unique:admins,email,' . $this->adminId,
-                'address' => 'required|string',
-                'ville' => 'required|integer',
-                'role' => 'required|integer',
-                //'password_confirmation' => 'required|min:4',
-                // 'password' => 'required|min:4'
-            ]);
 
-            // Execution doesn't reach here if validation fails.
-            if ($this->adminId) {
-                $admin = Admin::findOrFail($this->adminId);
-                $admin->update([
-                    'nom' => $this->nom,
-                    'prenom' => $this->prenom,
-                    'tele' => $this->tele,
-                    'email' => $this->email,
-                    'address' => $this->address,
-                    // 'password' => $this->password,
-                    'city_id' => $this->ville
-                ]);
-                $admin->assignRole($this->role);
-                if ($admin) {
-                    $this->resetIput();
-                    return redirect()->route('admin.admins');
-                }
+        // The current user can update the post...
+        $this->validate([
+            'nom' => 'required|string',
+            'prenom' => 'required|string',
+            'tele' => 'required|numeric|unique:admins,tele,' . $this->adminId,
+            'email' => 'required|email|unique:admins,email,' . $this->adminId,
+            'address' => 'required|string',
+            'ville' => 'required|integer',
+            'role' => 'required|integer',
+            //'password_confirmation' => 'required|min:4',
+            // 'password' => 'required|min:4'
+        ]);
+
+        // Execution doesn't reach here if validation fails.
+        if ($this->adminId) {
+            $admin = Admin::findOrFail($this->adminId);
+            $admin->update([
+                'nom' => $this->nom,
+                'prenom' => $this->prenom,
+                'tele' => $this->tele,
+                'email' => $this->email,
+                'address' => $this->address,
+                // 'password' => $this->password,
+                'city_id' => $this->ville
+            ]);
+            $admin->assignRole($this->role);
+            if ($admin) {
+                $this->resetIput();
+                return redirect()->route('admin.admins');
             }
         }
     }

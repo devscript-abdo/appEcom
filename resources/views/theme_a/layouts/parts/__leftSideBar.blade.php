@@ -2,13 +2,19 @@
     <h5 class="brand-name">Soccer <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
     <nav id="left-sidebar-nav" class="sidebar-nav">
         <ul class="metismenu">
+            
             <li class="g_heading">Project</li>
-            <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
+            <li class="{{request()->routeIs('admin.dash') ? 'active':''}}"><a href="{{route('admin.dash')}}"><i class="fa fa-dashboard"></i><span>{{__('adminNav.admin.dash')}}</span></a></li>
+            <li class="{{request()->routeIs('admin.admins') ? 'active':''}}"><a href="{{route('admin.admins')}}"><i class="fa fa-user"></i><span>{{__('adminNav.admin.admins')}}</span></a></li>                      
+            <li class="{{request()->routeIs('admin.roles') ? 'active':''}}"><a href="{{route('admin.roles')}}"><i class="fa fa-lock"></i><span>{{__('adminNav.admin.roles')}}</span></a></li>
+            <li class="{{request()->routeIs('admin.cities') ? 'active':''}}"><a href="{{route('admin.cities')}}"><i class="fa fa-list-ul"></i><span>{{__('adminNav.admin.cities')}}</span></a></li>
+            <li class="{{request()->routeIs('admin.groups') ? 'active':''}}"><a href="{{route('admin.groups')}}"><i class="fa fa-folder"></i><span>{{__('adminNav.admin.groups')}}</span></a></li>
+
             <li><a href="project-list.html"><i class="fa fa-list-ol"></i><span>Project list</span></a></li>
             <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
             <li><a href="project-ticket.html"><i class="fa fa-list-ul"></i><span>Ticket List</span></a></li>
             <li><a href="project-ticket-details.html"><i class="icon-tag"></i><span>Ticket Details</span></a></li>
-            <li><a href="project-clients.html"><i class="fa fa-user"></i><span>Clients</span></a></li>
+
             <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>
             <li class="g_heading">App</li>
             <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>

@@ -14,7 +14,6 @@
                         @endif--}}
                     <form>
                         <div class="row clearfix">
-                            
                                 <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">{{__('adminCrud.admin.nom')}}</label>
@@ -26,14 +25,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <input type="hidden" wire:model="adminId">
+                                <input type="hidden" wire:model="adminId" class="haymacproduction">
                                 @csrf
-                                <div class="col-lg-3 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">{{__('adminCrud.admin.prenom')}}</label>
+                                <div class="col-lg-3 col-md-12 haymacproduction">
+                                    <div class="form-group haymacproduction">
+                                        <label class="form-label haymacproduction">{{__('adminCrud.admin.prenom')}}</label>
                                         <input type="text" wire:model.defer="prenom" name="prenom" class="form-control @error('prenom') is-invalid @enderror" placeholder="{{__('adminCrud.admin.prenom')}}">
                                         @error('prenom')
-                                            <span class="invalid-feedback" role="alert">
+                                            <span class="invalid-feedback haymacproduction" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror

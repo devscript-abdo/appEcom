@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\DevlopperController;
+use App\Http\Controllers\GroupController;
 
 Route::group([
 
@@ -35,6 +36,11 @@ Route::group([
     Route::group(['prefix' => 'cities'], function () {
         Route::get('/', [CityController::class, 'index'])->name('cities');
         Route::post('/', [CityController::class, 'store'])->name('cities');
+    });
+
+    Route::group(['prefix' => 'groups'], function () {
+        Route::get('/', [GroupController::class, 'index'])->name('groups');
+        Route::post('/', [GroupController::class, 'store'])->name('groups');
     });
 
     Route::group(['prefix'=>'devlopper'],function(){

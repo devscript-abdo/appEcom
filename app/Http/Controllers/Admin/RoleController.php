@@ -12,7 +12,7 @@ class RoleController extends Controller
     //
     public function index()
     {
-        return view('Admin.Role.index', ['roles' => Role::cursor()]);
+        return view('theme_a.roles.index', ['roles' => Role::cursor()]);
     }
 
     public function store(RoleRequest $request)

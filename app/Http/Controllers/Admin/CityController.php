@@ -7,14 +7,13 @@ use App\Http\Requests\CityRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
 
-
 class CityController extends Controller
 {
     //
 
     public function index()
     {
-        return view('Admin.City.index', ['cities' => City::cursor()]);
+        return view('theme_a.cities._livewire.index');
     }
 
     public function store(CityRequest $request)

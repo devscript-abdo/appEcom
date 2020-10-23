@@ -54,7 +54,7 @@ class AdminPolicy
     public function update(Admin $admin)
     {
         //
-        return $admin->ville->name === "Casablanca";
+        return $admin->id === 1;
     }
 
     /**
