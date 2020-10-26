@@ -15,12 +15,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\City::factory(3)->create();
         //  \App\Models\User::factory(10)->create();
-        \App\Models\Admin::factory()
+        \App\Models\Lead::factory(200)->create();
+       /* \App\Models\Admin::factory()
             ->count(3)
             ->forVille([
                 'name' => 'Casablanca',
                 'slug' => 'Casablanca city'
             ])
-            ->create();
+            ->create();*/
     }
 }
