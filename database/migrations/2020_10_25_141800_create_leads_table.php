@@ -17,6 +17,7 @@ class CreateLeadsTable extends Migration
             $table->id();
             $table->string('nom', 80);
             $table->string('prenom', 80);
+            $table->string('nomcomplet', 100)->nullable();
             $table->string('email', 100)->nullable();
             $table->string('tele', 20);
             $table->string('ville', 40);
@@ -34,6 +35,8 @@ class CreateLeadsTable extends Migration
             $table->foreign('moderator_id')->references('id')->on('moderators');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -22,13 +22,12 @@ class Admin extends Authenticatable
         'nom',
         'prenom',
         'email',
-        'city_id',
         'tele',
         'address',
-        'ville',
+        'city_id',
         'approved',
         'password',
-        'biography'
+        //'biography'
     ];
 
     /**
@@ -52,16 +51,22 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function ville()
+    public function city()
     {
-        return $this->belongsTo('App\Models\City', 'city_id');
+        return $this->belongsTo('App\Models\City');
     }
 
-    public function fullName()
+    public function getFullNameAttribute()
     {
-        return $this->nom . ' ' . $this->prenom;
+        return "{$this->nom} {$this->prenom}";
     }
 
+    public function getRoleAttribute()
+    {
+
+        return str_replace('-', ' ', $this->getRoleNames()[0]??'no role');
+    }
+    
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);

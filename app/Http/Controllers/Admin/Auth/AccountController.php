@@ -13,7 +13,7 @@ class AccountController extends Controller
 
     public function index()
     {
-        return view('Admin.Account.index', ['admin' => Admin::find(Auth::id())]);
+        return view('theme_a.account._livewire.index', ['admin' => Admin::find(Auth::id())]);
     }
 
     public function update()

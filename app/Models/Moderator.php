@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -28,7 +29,8 @@ class Moderator extends Authenticatable
         'ville',
         'approved',
         'password',
-        'biography'
+        'biography',
+        'addedBy'
     ];
 
     /**
@@ -48,6 +50,8 @@ class Moderator extends Authenticatable
      */
     protected $guard = 'moderator';
 
+    protected $guard_name = 'moderator';
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -57,13 +61,33 @@ class Moderator extends Authenticatable
         return $this->belongsTo('App\Models\City', 'city_id');
     }
 
-    public function fullName()
+
+    public function leads()
     {
-        return $this->nom . ' ' . $this->prenom;
+        return $this->hasMany('App\Models\Lead')->where('moderator_id', $this->id);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->nom} {$this->prenom}";
     }
 
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
+    
+   /* private function getAuthAdmin(){
+      return Auth::user()->fullname;
+    }*/
+
+    /*protected static function boot()
+    {
+        parent::boot();
+
+        // auto-sets values on creation
+        static::creating(function ($query) {
+            $query->addedBy = $query->getAuthAdmin();
+        });
+    }*/
 }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'admin.list' => 'Admins List',
+    'admin.list' => 'Admins / Human resource List',
     'admin.grid' => 'Grid',
     'admin.add' => 'Add new admin',
 

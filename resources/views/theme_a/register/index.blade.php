@@ -87,6 +87,14 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select name="role" class="custom-select">
+                                @foreach($roles as $role)
+                                 <option value="{{$role->id}}">{{$role->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Password</label>
                             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
                             @error('password')

@@ -15,6 +15,8 @@ class ModeratorController extends Controller
     public function index()
     {
         //
+
+        return view('theme_a.moderators._livewire.index');
     }
 
     /**

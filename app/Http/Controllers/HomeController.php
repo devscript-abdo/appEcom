@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\Admin;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,8 @@ class HomeController extends Controller
     public function registerGet()
     {
         $villes = City::select('name', 'slug', 'id')->get();
-        return view('theme_a.register.index', compact('villes'));
+        $roles = Role::all();
+        return view('theme_a.register.index', compact('villes','roles'));
     }
     public function register(RegisterRequest $request)
     {
@@ -38,8 +40,10 @@ class HomeController extends Controller
         $admin->email = $request->email;
         $admin->address = $request->address;
         $admin->password = $request->password;
-        $admin->ville()->associate($request->ville[0]);
+        $admin->city()->associate($request->ville[0]);
+
         if ($admin->save()) {
+            $admin->assignRole($request->role);
             return redirect()->back()->withGood('le compte a bien été Crée');
         }
         return redirect()->back()->withError('un problém a est survenu lors de la cration');

@@ -22,14 +22,17 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div><a href="javascript:void(0);">{{$admin->fullName()}}</a></div>
+                                        <div><a href="javascript:void(0);">{{$admin->fullname}}</a></div>
                                         <div class="text-muted">{{$admin->tele}}</div>
+                                    </td>
+                                    <td class="hidden-xs">
+                                        <div class="text-muted">{{$admin->role ??''}}</div>
                                     </td>
                                     <td class="hidden-xs">
                                         <div class="text-muted">{{$admin->email}}</div>
                                     </td>
                                     <td class="hidden-sm">
-                                        <div class="text-muted">{{$admin->ville->name}}</div>                                                
+                                        <div class="text-muted">{{$admin->city->name ?? ''}}</div>                                                
                                     </td>
                                     <td class="hidden-sm">
                                         <div class="text-muted">{{$admin->address}}</div>                                                

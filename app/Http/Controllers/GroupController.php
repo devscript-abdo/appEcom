@@ -15,7 +15,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-       // dd(Auth::id());
+        // dd(Auth::id());
         return view('theme_a.groups._livewire.index');
     }
 
@@ -48,7 +48,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return view('theme_a.groups._livewire.single.index', compact('group'));
     }
 
     /**

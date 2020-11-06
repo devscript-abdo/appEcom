@@ -26,9 +26,9 @@ class LeadFactory extends Factory
             'prenom' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,
             'ville' => $this->faker->city,
-            'address'=> $this->faker->sentence,
+            'address'=> $this->faker->streetAddress,
             'tele' => $this->faker->unique()->randomNumber(8),
-            'produit'=>$this->faker->sentence
+            'produit'=>$this->faker->streetName
         ];
     }
 }

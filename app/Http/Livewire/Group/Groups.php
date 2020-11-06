@@ -8,9 +8,14 @@ use Livewire\Component;
 
 class Groups extends Component
 {
-    public $groups;
 
     public $isUpdate = false;
+    public $isLoad = false;
+
+    public $groups;
+    public $group;
+
+    public $leads;
 
     public $name;
     public $description;
@@ -47,14 +52,23 @@ class Groups extends Component
             'admin_id' => $this->authAdmin
 
         ]);
-      
+
         if ($group) {
             $this->resetIput();
             return redirect()->route('admin.groups');
         }
     }
 
+    public function loadData($id)
+    {
 
+        $this->group = Group::findOrFail($id);
+        $this->isLoad = true;
+        $this->leads = $this->group->leads()->get();
+        /* return view('livewire.group.__loadData', [
+            'leads' => $this->group->leads()->get()
+        ]);*/
+    }
     public function editGroup($id)
     {
         $group = Group::findOrFail($id);

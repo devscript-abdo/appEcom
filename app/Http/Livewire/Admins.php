@@ -4,26 +4,18 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-use App\Models\Admin;
-use App\Models\City;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Arr;
+use App\Repositories\Admin\AdminRepositoryInterface;
+use App\Repositories\City\CityRepositoryInterface;
+use App\Repositories\Role\RoleRepositoryInterface;
+
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class Admins extends Component
 {
 
     use AuthorizesRequests;
-    /*public function render()
-    {
-        return view('livewire.admins');
-    }*/
-    /*
-    public function render()
-    {
-        return view('livewire.admin-list');
-    }*/
+
     public $admins;
     public $isUpdate = false;
 
@@ -42,27 +34,18 @@ class Admins extends Component
 
     public $adminId;
 
-    public function mount(Admin $admin, City $city, Role $role)
-    {
-        $this->villes = $city::select('id', 'name')->get();
-        $this->roles = $role::select('id', 'name')->get();
-        $this->admins = $admin::all();
+    public function mount(
+        AdminRepositoryInterface $adminRepository,
+        CityRepositoryInterface $cityRepository,
+        RoleRepositoryInterface $roleRepository
+    ) {
+
+        $this->villes = $cityRepository->getSelect(['id', 'name']);
+        $this->roles = $roleRepository->getSelect(['id', 'name']);
+        $this->admins = $adminRepository->getAll();
     }
 
-
-    /* protected $rules = [
-        'nom' => 'required|string',
-        'prenom' => 'required|string',
-        'tele' => 'required|numeric|unique:admins,tele,' . $this->adminId,
-        'email' => 'required|email|unique:admins,email,' . $this->adminId,
-        'address' => 'required|string',
-        'ville' => 'required|integer',
-        'role' => 'required|integer',
-        //'password_confirmation' => 'required|min:4',
-        'password' => 'required|min:4'
-    ];*/
-
-    public function submit()
+    public function submit(AdminRepositoryInterface $newAdmin)
     {
         $this->validate([
             'nom' => 'required|string',
@@ -72,32 +55,23 @@ class Admins extends Component
             'address' => 'required|string',
             'ville' => 'required|integer',
             'role' => 'required|integer',
-           // 'password_confirmation' => 'required|min:4',
             'password' => 'required|min:4'
         ]);
 
-        // Execution doesn't reach here if validation fails.
-
-        $admin = Admin::create([
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'tele' => $this->tele,
-            'email' => $this->email,
-            'address' => $this->address,
-            'password' => $this->password,
-            'city_id' => $this->ville
-        ]);
-        $admin->assignRole($this->role);
+        $admin = $newAdmin->createWithRole($this->collectToArray());
+        
         if ($admin) {
             $this->resetIput();
             return redirect()->route('admin.admins');
         }
     }
 
-    public function editAdmin($id)
+    public function editAdmin(AdminRepositoryInterface $Admin, $id)
     {
-        $admin = Admin::findOrFail($id);
+        $admin = $Admin->findOrFail($id);
+
         $this->adminId = $admin->id;
+
         $this->nom = $admin->nom;
         $this->prenom = $admin->prenom;
         $this->tele = $admin->tele;
@@ -105,15 +79,12 @@ class Admins extends Component
         $this->address = $admin->address;
         //$this->password = $admin->password;
         $this->ville = $admin->city_id;
-        // $this->role = $admin->getRoleNames()[0];
+        // $this->role = $admin->getRoleIds()[0] ?? 0;
         $this->isUpdate = true;
         // return view('livewire.edit-admin');
     }
-    public function update()
+    public function update(AdminRepositoryInterface $updateAdmin)
     {
-        // $this->authorize('update', $this->adminId);
-
-        // The current user can update the post...
         $this->validate([
             'nom' => 'required|string',
             'prenom' => 'required|string',
@@ -121,24 +92,12 @@ class Admins extends Component
             'email' => 'required|email|unique:admins,email,' . $this->adminId,
             'address' => 'required|string',
             'ville' => 'required|integer',
-            'role' => 'required|integer',
-            //'password_confirmation' => 'required|min:4',
-            // 'password' => 'required|min:4'
         ]);
 
-        // Execution doesn't reach here if validation fails.
         if ($this->adminId) {
-            $admin = Admin::findOrFail($this->adminId);
-            $admin->update([
-                'nom' => $this->nom,
-                'prenom' => $this->prenom,
-                'tele' => $this->tele,
-                'email' => $this->email,
-                'address' => $this->address,
-                // 'password' => $this->password,
-                'city_id' => $this->ville
-            ]);
-            $admin->assignRole($this->role);
+
+            $admin =  $updateAdmin->update($this->collectToArray('password'), $this->adminId);
+
             if ($admin) {
                 $this->resetIput();
                 return redirect()->route('admin.admins');
@@ -150,13 +109,11 @@ class Admins extends Component
         $this->isUpdate = false;
         $this->resetIput();
     }
-    public function deleteAdmin($id)
+    public function deleteAdmin(AdminRepositoryInterface $deleteAdmin, $id)
     {
-        if ($id) {
-            $admin = Admin::findOrFail($id);
-            $admin->delete();
-            return redirect()->route('admin.admins');
-        }
+        $deleteAdmin->deleteAdmin($id) ?
+            redirect()->route('admin.admins')
+            : null;
     }
 
 
@@ -171,5 +128,28 @@ class Admins extends Component
         $this->password = null;
         $this->ville = null;
         $this->role = null;
+    }
+
+    private function collectToArray($ignore = null): array
+    {
+        $array = [
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'tele' => $this->tele,
+            'email' => $this->email,
+            'address' => $this->address,
+            'password' => $this->password,
+            'city_id' => $this->ville,
+            'role' => intval($this->role)
+        ];
+
+        if ($ignore) {
+
+            if (Arr::exists($array, $ignore)) {
+                $news = Arr::except($array, $ignore);
+                return $news;
+            }
+        }
+        return $array;
     }
 }

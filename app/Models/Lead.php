@@ -24,4 +24,30 @@ class Lead extends Model
         'group_id',
         'moderator_id'
     ];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'active',
+        'moderator_id',
+        'code',
+        'source',
+        'addedby',
+        'description',
+        'nomcomplet'
+    ];
+    public function group()
+    {
+        return $this->belongsTo('App\Models\Group');
+    }
+
+    public function moderator()
+    {
+        return $this->belongsTo('App\Models\Moderator');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->nom} {$this->prenom}";
+    }
 }

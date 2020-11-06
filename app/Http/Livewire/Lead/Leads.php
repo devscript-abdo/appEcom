@@ -2,142 +2,162 @@
 
 namespace App\Http\Livewire\Lead;
 
-use App\Models\Lead;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LeadRequest;
 use Livewire\Component;
 use Livewire\WithPagination;
+
+use App\Repositories\Group\GroupRepositoryInterface;
+use App\Repositories\Lead\LeadRepositoryInterface;
+use App\Repositories\Moderator\ModeratorRepositoryInterface;
+
+use App\Repositories\LoggedGuard\LoggedGuardRepositoryInterface;
+use App\Traits\ItemsQuery;
+
+use function PHPUnit\Framework\isNull;
 
 class Leads extends Component
 {
     use WithPagination;
 
-   // public $leads;
-
     public $isUpdate = false;
-
-    public $nom;
-    public $prenom;
-    public $email;
-    public $ville;
-    public $address;
-    public $tele;
-    public $produit;
+    public $isGroup = false;
+    public $isModerator = false;
 
     public $leadId;
-
     public $authAdmin;
 
-     public function render()
+    public $groups;
+    public $moderators;
+
+    public $selected = []; //when user click to checkbox
+    public $model;
+    public $nom;
+    public $fields = [
+        'nom' => '',
+        'prenom' => '',
+        'email' => '',
+        'ville' => '',
+        'address' => '',
+        'tele' => '',
+        'produit' => '',
+        'group' => ''
+    ];
+
+
+    //protected $listeners = ['editLead'];
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $filter = [];
+
+    public $data = [];
+
+    protected $updatesQueryString = ['filter'];
+
+    public function render(LeadRepositoryInterface $leadRepo)
     {
-        return view('livewire.lead.__basic',[
-            'leads' =>Lead::all()
+
+        $leads = new ItemsQuery($this->filter, $leadRepo);
+
+        return view('livewire.lead.__basic', [
+
+            //'leads' => $leadRepo->query()
+            'leads' =>    $leads->paginate(10)
+
         ]);
     }
-
-    public function mount(Lead $lead)
+    public function setfilter()
     {
+        if (!is_array($this->filter) && isNull($this->filter)) {
 
-      // $this->leads = $lead::all();
-       // $this->leads =Lead::paginate(10);
-        $this->authAdmin = Auth::user();
+            return;
+        }
+        $this->filter = array_filter(array_map('trim', $this->data));
     }
 
-    public function submit()
+    public function mount(
+
+        GroupRepositoryInterface $groupRepo,
+        ModeratorRepositoryInterface $moderatorRepo,
+        LoggedGuardRepositoryInterface $loggedUser
+    ) {
+
+        $this->groups = $groupRepo->select(['id', 'name', 'slug']);
+        $this->moderators = $moderatorRepo->select(['id', 'nom', 'prenom']);
+        $this->authAdmin = $loggedUser->loggedUser();
+    }
+
+    public function submit(LeadRepositoryInterface $newLead)
     {
-        $this->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'nullable|email',
-            'ville' => 'required|string',
-            'address' => 'required|string',
-            'tele' => 'required|numeric',
-            'produit' => 'required|string'
-        ]);
 
-        // Execution doesn't reach here if validation fails.
-
-        // dd($this->authAdmin);
-        $lead = Lead::create([
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'email' => $this->email,
-            'ville' => $this->ville,
-            'address' => $this->address,
-            'tele' => $this->tele,
-            'produit' => $this->produit,
-            'addedby' => $this->authAdmin->fullName(),
-            'source' => 'direct-admin'
-
-        ]);
-
+        $form = new LeadRequest();
+        $form->merge($this->fields);
+        $data = $form->validate($form->rules());
+        $lead = $newLead->create($data);
         if ($lead) {
             $this->resetIput();
-            return redirect()->route('admin.leads');
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'success',
+                    'message' => trans('leadData.lead.added.ok')
+                ]
+            );
+            //return redirect()->route('admin.leads');
         }
     }
 
 
-    public function editLead($id)
+    public function editLead(LeadRepositoryInterface $editLead, $id)
     {
-        $lead = lead::findOrFail($id);
+        $lead = $editLead->findOrFail($id);
+
         $this->leadId = $lead->id;
         $this->isUpdate = true;
-        
-        $this->nom = $lead->nom;
-        $this->prenom = $lead->prenom;
-        $this->email = $lead->email;
-        $this->ville = $lead->ville;
-        $this->address = $lead->address;
-        $this->tele = $lead->tele;
-        $this->produit = $lead->produit;
-        
-        // return view('livewire.edit-admin');
+        $this->fields = $lead->toArray();
     }
-    public function update()
+    public function update(LeadRepositoryInterface $updateLead)
     {
-        //dd('yyyy');
-        // The current user can update the post...
-        $this->validate([
 
-            //'name' => 'required|string|unique:leads,name,' . $this->leadId,
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'nullable|email|unique:leads,email,' . $this->leadId,
-            'ville' => 'required|string',
-            'address' => 'required|string',
-            'tele' => 'required|numeric|unique:leads,tele,' . $this->leadId,
-            'produit' => 'required|string'
-        ]);
+        $form = new LeadRequest();
+        $form->setId($this->leadId);
+        $form->merge($this->fields);
+        $data = $form->validate($form->rules());
 
-
-        // Execution doesn't reach here if validation fails.
         if ($this->leadId) {
-            $lead = lead::findOrFail($this->leadId);
-            $lead->update([
-                'nom' => $this->nom,
-                'prenom' => $this->prenom,
-                'email' => $this->email,
-                'ville' => $this->ville,
-                'address' => $this->address,
-                'tele' => $this->tele,
-                'produit' => $this->produit,
-                //'addedby' => $this->authAdmin->fullName(),
-                //'source' => 'direct-admin'
-
-            ]);
-
+            $lead =  $updateLead->update($data, $this->leadId);
             if ($lead) {
                 $this->resetIput();
-                return redirect()->route('admin.leads');
+                return $this->sendNotificationTobrowser(
+                    'attachedToAction',
+                    [
+                        'type' => 'success',
+                        'message' => trans('leadData.lead.added.update')
+                    ]
+                );
+                // return redirect()->route('admin.leads');
             }
         }
     }
-    public function deleteLead($id)
+    public function deleteLead(LeadRepositoryInterface $delete, $id)
     {
         if ($id) {
-            $lead = lead::findOrFail($id);
-            $lead->delete();
-            return redirect()->route('admin.leads');
+            return  $delete->delete($id) ?
+                $this->sendNotificationTobrowser(
+                    'attachedToAction',
+                    [
+                        'type' => 'success',
+                        'message' => trans('leadData.lead.added.delete')
+                    ]
+                )
+                :
+                $this->sendNotificationTobrowser(
+                    'attachedToAction',
+                    [
+                        'type' => 'error',
+                        'message' => trans('leadData.lead.delete.error')
+                    ]
+                );
         }
     }
 
@@ -150,12 +170,113 @@ class Leads extends Component
     /**** private method ***/
     private function resetIput()
     {
-        $this->nom = null;
-        $this->prenom = null;
-        $this->email = null;
-        $this->ville = null;
-        $this->address = null;
-        $this->tele = null;
-        $this->produit = null;
+        $this->fields = null;
+    }
+
+    /*****Multi action  Elmarzougui Abdelghafour at haymacproduction */
+
+    public function moveTo($action)
+    {
+        if (!$this->selected || !$action) {
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.export.select')
+                ]
+            );
+            return;
+        }
+        switch ($action) {
+            case 'group':
+                $this->isGroup = true;
+                break;
+            case 'moderator':
+                $this->isModerator = true;
+                break;
+            default:
+                $this->isGroup = false;
+                $this->isModerator = false;
+                return;
+        }
+    }
+    public function moveToAction(LeadRepositoryInterface $upleads, $action)
+    {
+
+        if (!$this->selected || !$action) {
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.export.select')
+                ]
+            );
+            return;
+        }
+
+        $relation = ['group' => 'group_id', 'moderator' => 'moderator_id'];
+
+        $selects = $upleads->find(array_filter($this->selected));
+
+        if ($selects) {
+
+            foreach ($selects as $select) {
+                $select->update([$relation[strval($action)] => intval($this->model)]);
+            }
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'success',
+                    'message' => trans('leadData.lead.export.success')
+                ]
+            );
+            // return redirect()->route('admin.leads');
+        }
+        return $this->sendNotificationTobrowser(
+            'attachedToAction',
+            [
+                'type' => 'error',
+                'message' => trans('leadData.lead.export.error')
+            ]
+        );
+        // return redirect(route('admin.leads'))->withError('Sorry problem detected');
+    }
+
+    public function deleteMultiLead(LeadRepositoryInterface $leads)
+    {
+        if (!$this->selected) {
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.export.select')
+                ]
+            );
+            return;
+        }
+        if ($this->selected) {
+            $leads->destroy(array_filter($this->selected));
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'success',
+                    'message' => trans('leadData.lead.delete.success')
+                ]
+            );
+            // return redirect()->route('admin.leads');
+        }
+        return $this->sendNotificationTobrowser(
+            'attachedToAction',
+            [
+                'type' => 'error',
+                'message' => trans('leadData.lead.delete.success')
+            ]
+        );
+        //return redirect(route('admin.leads'))->withError('Sorry problem detected');
+    }
+
+    private function sendNotificationTobrowser($name, $options = [])
+    {
+        $this->dispatchBrowserEvent($name, $options);
     }
 }

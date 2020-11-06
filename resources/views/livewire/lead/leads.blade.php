@@ -1,10 +1,11 @@
 {{---Part A--}}
 <div>
     @if($isUpdate)
-    @include('livewire.lead.__update')
+      @include('livewire.lead.__update')
     @else
-    @include('livewire.lead.__create')
+      @include('livewire.lead.__create')
     @endif
+ 
     <div class="row clearfix haymacproduction">
         <div class="col-lg-12 haymacproduction">
             <div class="card haymacproduction">

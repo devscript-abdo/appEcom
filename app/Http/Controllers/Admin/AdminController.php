@@ -6,22 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminCrudRequest;
 use App\Models\Admin;
 use App\Models\City;
-use Illuminate\Http\Request;
+use App\Repositories\Admin\AdminRepositoryInterface;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
     //
-    public function __construct()
+    private $repository;
+
+    public function __construct(AdminRepositoryInterface $repository)
     {
+
+        $this->repository = $repository;
+
         $this->middleware('auth:admin');
     }
 
     public function index()
     {
-        $villes = City::select('id', 'name', 'slug')->get();
+
+
+        return view('theme_a.admins.index');
+        /* $villes = City::select('id', 'name', 'slug')->get();
         $roles = Role::cursor();
-        return view('theme_a.admins.index', ['admins' => Admin::cursor(), 'villes' => $villes, 'roles' => $roles]);
+        return view('theme_a.admins.index', ['admins' => Admin::cursor(), 'villes' => $villes, 'roles' => $roles]);*/
     }
 
     public function create()

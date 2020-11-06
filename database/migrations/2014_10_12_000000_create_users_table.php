@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->boolean('approved')->default(true);
             $table->enum('locale',['ar','fr','en'])->default('fr');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

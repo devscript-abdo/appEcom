@@ -18,6 +18,8 @@ return [
     'admin.roles' => 'Roles',
     'admin.cities' => 'Cities',
     'admin.groups' => 'Groups',
-    'admin.leads' => 'Leads'
+    'admin.leads' => 'Leads',
+    'admin.moderators'=>'Opératrices',
+    'admin.todos'=>'Todo List'
 
 ];

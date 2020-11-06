@@ -20,18 +20,18 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('tele', 20)->unique()->nullable();
             $table->string('address')->nullable();
-            $table->string('city', 50)->nullable();
-            $table->longText('biography')->nullable();
+           // $table->longText('biography')->nullable();
             $table->string('password');
-            $table->string('avatar')->default('admin.png');
+            //$table->string('avatar')->default('admin.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
-        
-            $table->foreignId('city_id')->references('id')->on('cities')->nullable();
+            $table->bigInteger('city_id')->unsigned()->nullable();
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->boolean('approved')->default(true);
-            $table->enum('locale',['ar','fr','en'])->default('fr');
-            $table->enum('sexe',['male','female'])->nullable();
+            $table->enum('locale', ['ar', 'fr', 'en'])->default('fr');
+            $table->enum('sexe', ['male', 'female'])->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

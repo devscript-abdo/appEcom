@@ -28,8 +28,11 @@ class CreateModeratorsTable extends Migration
             $table->rememberToken();
             $table->foreignId('city_id')->references('id')->on('cities')->nullable();
             $table->boolean('approved')->default(true);
+            $table->string('addedBy', 50)->nullable();
             $table->enum('locale',['ar','fr','en'])->default('fr');
             $table->timestamps();
+            
+            $table->softDeletes();
         });
     }
 
