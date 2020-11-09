@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\LeadCreated;
 use Livewire\Component;
 
 use Illuminate\Support\Arr;
@@ -40,28 +41,29 @@ class Admins extends Component
         RoleRepositoryInterface $roleRepository
     ) {
 
-        $this->villes = $cityRepository->getSelect(['id', 'name']);
-        $this->roles = $roleRepository->getSelect(['id', 'name']);
-        $this->admins = $adminRepository->getAll();
+            $this->villes = $cityRepository->getSelect(['id', 'name']);
+            $this->roles = $roleRepository->getSelect(['id', 'name']);
+            $this->admins = $adminRepository->getAll();
     }
 
     public function submit(AdminRepositoryInterface $newAdmin)
     {
         $this->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'tele' => 'required|numeric|unique:admins',
-            'email' => 'required|email|unique:admins',
-            'address' => 'required|string',
-            'ville' => 'required|integer',
-            'role' => 'required|integer',
-            'password' => 'required|min:4'
+                'nom' => 'required|string',
+                'prenom' => 'required|string',
+                'tele' => 'required|numeric|unique:admins',
+                'email' => 'required|email|unique:admins',
+                'address' => 'required|string',
+                'ville' => 'required|integer',
+                'role' => 'required|integer',
+                'password' => 'required|min:4'
         ]);
 
         $admin = $newAdmin->createWithRole($this->collectToArray());
         
         if ($admin) {
             $this->resetIput();
+            
             return redirect()->route('admin.admins');
         }
     }

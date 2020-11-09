@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\AdminPolicy;
+use App\Policies\LeadPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,9 +15,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Models\Admin' => 'App\Policies\AdminPolicy',
+       /* 'App\Models\Admin' => 'App\Policies\AdminPolicy',
         'App\Models\City' => 'App\Policies\CityPolicy',
-
+        'App\Models\Lead' => 'App\Policies\LeadPolicy',*/
     ];
 
     /**
@@ -26,14 +27,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+       // $this->registerPolicies();
 
         //
-       /* Gate::define('update', function ($user) {
-            //  dd($user);
-            return $user->id == 3;
+       /* Gate::define('update-lead', function ($user) {
+            // dd($user,'Ouuuu');
+            return $user->id == 2;
         });*/
 
-        Gate::define('update', [AdminPolicy::class, 'update']);
+       // Gate::define('update-lead', [LeaderPolicy::class, 'update']);
     }
 }

@@ -54,7 +54,7 @@ class AdminPolicy
     public function update(Admin $admin)
     {
         //
-        return $admin->id === 1;
+        return $admin->id === 2;
     }
 
     /**

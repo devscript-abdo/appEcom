@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Lead;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LeadController extends Controller
 {
@@ -12,9 +14,14 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+     {
+      
+     }
     public function index()
     {
-        //
+       // $users = Lead::where('active', 1)->max('created_at');
         return view('theme_a.leads._livewire.index');
     }
 

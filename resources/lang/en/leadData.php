@@ -32,6 +32,7 @@ return [
     /******Created/Non Created message *****************/
     'lead.added.ok' => 'lead successfully created',
     'lead.added.update' => 'lead successfully updated',
+    'lead.added.update.nochange' => 'No change was detected',
     'lead.added.delete' => 'lead successfully deleted',
     'lead.added.no' => 'problem when add this lead',
 
@@ -53,12 +54,21 @@ return [
     'lead.export.moderator' => 'Exporter a une opératrice',
     'lead.export.group' => 'Exporter a un group',
     'lead.export.delete' => 'Supprimer la list selectioné',
-    /*********** */
-    'lead.export.success'=>"l'exportation a été fait avec succès",
-    'lead.export.error'=>"un probleme est survenu lors de l'exportation",
-    'lead.export.select'=>"seléctionné au moins un lead ou plusieurs",
-    /************* */
-    'lead.delete.success'=>"la suppression a été effectuée",
-    'lead.delete.error'=>"un probleme est survenu lors de la suppression",
+    /********************************************* */
+    'lead.export.success' => "l'exportation a été fait avec succès",
+    'lead.export.error' => "un probleme est survenu lors de l'exportation",
+    'lead.export.select' => "seléctionné au moins un lead ou plusieurs",
+    /*********************************************** */
+    'lead.delete.success' => "la suppression a été effectuée",
+    'lead.delete.error' => "un probleme est survenu lors de la suppression",
+
+    /********************************************************************* */
+
+    'lead.filter.warning' => "veuillez remplir au moins un champ pour filtrer le",
+
+    /*********Permission message **************************************************/
+
+    'lead.permission.update' => "vous n'avez pas le droit de faire la modification",
+
 
 ];

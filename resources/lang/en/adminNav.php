@@ -20,6 +20,7 @@ return [
     'admin.groups' => 'Groups',
     'admin.leads' => 'Leads',
     'admin.moderators'=>'Opératrices',
-    'admin.todos'=>'Todo List'
-
+    'admin.todos'=>'Todo List',
+    'admin.settings'=>'Settings',
+    'admin.products'=>'Products'
 ];

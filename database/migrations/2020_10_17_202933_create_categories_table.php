@@ -18,8 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name', 50)->unique();
             $table->string('slug', 50)->unique();
             $table->string('image')->nullable()->default('category.png');
-            $table->longText('description')->nullable();
-            $table->enum('type', ['LEAD', 'RH', 'CLIENT']);
+            $table->enum('type', ['products', 'leads'])->default('products');
             $table->boolean('active')->default(true);
             $table->bigInteger('parent_id')->default(0);
 

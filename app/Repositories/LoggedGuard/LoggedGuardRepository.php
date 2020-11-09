@@ -19,4 +19,19 @@ class LoggedGuardRepository implements LoggedGuardRepositoryInterface
     {
         return $this->guard::user();
     }
+    public function loggedUserId()
+    {
+        return $this->guard::user()->id;
+    }
+    public function getLoggedUserType()
+    {
+        if ($this->guard::guard('admin')->check()) {
+            return "admin";
+        } elseif ($this->guard::guard('moderator')->check()) {
+            return "moderator";
+        } elseif ($this->guard::guard('delivery')->check()) {
+            return "delivery";
+        }
+        return 'admin';
+    }
 }

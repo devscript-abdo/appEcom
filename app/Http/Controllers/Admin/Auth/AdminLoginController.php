@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 class AdminLoginController extends Controller
 {
     //
@@ -25,23 +26,27 @@ class AdminLoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    protected $appGuard = [];
+
+    public function __construct($appGuard)
     {
-         $this->middleware('guest:admin')->except('logout');
 
-       //  $this->redirectTo = route('admin.dash');
+        $this->middleware('guest:admin,moderator')->except('logout');
+
+        $this->appGuard = $appGuard;
+
+        //$this->redirectTo = route('admin.dash');
     }
-
-
 
     public function showLoginForm()
     {
-       //$ok = City::where('id',5)->value('name');
         return view('theme_a.login.index');
     }
 
     public function logout(Request $request)
     {
+
         $this->guard()->logout();
 
         $request->session()->invalidate();
@@ -57,13 +62,33 @@ class AdminLoginController extends Controller
             : redirect(route('admin.dash'));
     }
 
+
+    protected function attemptLogin(Request $request)
+    {
+        if (!$request->has('guard') && !$request->filled('guard')) {
+
+            return;
+        }
+
+        $guard = $request->only('guard');
+       
+        if (!isset($guard) && !in_array($guard['guard'], $this->appGuard)) {
+
+            return;
+        }
+        return $this->guard($guard['guard'])->attempt(
+            $this->credentials($request),
+            $request->filled('remember')
+        );
+    }
+
     /**
      * Get the guard to be used during authentication.
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    protected function guard()
+    protected function guard($guard = 'admin')
     {
-        return Auth::guard('admin');
+        return Auth::guard($guard);
     }
 }

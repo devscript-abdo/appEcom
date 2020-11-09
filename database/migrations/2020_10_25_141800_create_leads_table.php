@@ -33,7 +33,7 @@ class CreateLeadsTable extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->bigInteger('moderator_id')->unsigned()->nullable();
             $table->foreign('moderator_id')->references('id')->on('moderators');
-
+           // $table->date('registred_at');
             $table->timestamps();
 
             $table->softDeletes();

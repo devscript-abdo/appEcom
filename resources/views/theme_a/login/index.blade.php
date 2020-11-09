@@ -36,6 +36,7 @@
                                 <option value=""></option>
                                 <option value="admin">Administrator</option>
                                 <option value="moderator">Operatrice</option>
+                          
                             </select>
                             @error('guard')
                                 <span class="invalid-feedback" role="alert">

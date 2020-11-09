@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class Lead extends Model
 {
@@ -48,6 +50,29 @@ class Lead extends Model
 
     public function getFullNameAttribute()
     {
+      
         return "{$this->nom} {$this->prenom}";
+    }
+
+    public function scopeFromTo(Builder $query, $dateFrom, $dateTo): Builder
+    {
+        return $query->whereBetween(
+            'created_at',
+            [
+                Carbon::createFromFormat('m/d/Y', $dateFrom)->format('Y-m-d'),
+                Carbon::createFromFormat('m/d/Y', $dateTo)->format('Y-m-d')
+            ]
+        );
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+           
+         //  $query->addedby = $authAdmin;
+        });
     }
 }

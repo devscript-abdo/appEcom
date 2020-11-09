@@ -2,22 +2,22 @@
 
 namespace App\Http\Livewire\Lead;
 
-use App\Http\Requests\LeadRequest;
 use Livewire\Component;
+use App\Http\Requests\LeadRequest;
+
 use Livewire\WithPagination;
 
 use App\Repositories\Group\GroupRepositoryInterface;
 use App\Repositories\Lead\LeadRepositoryInterface;
 use App\Repositories\Moderator\ModeratorRepositoryInterface;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Repositories\LoggedGuard\LoggedGuardRepositoryInterface;
 use App\Traits\ItemsQuery;
-
-use function PHPUnit\Framework\isNull;
+use Illuminate\Support\Facades\Gate;
 
 class Leads extends Component
 {
-    use WithPagination;
+    use WithPagination, AuthorizesRequests;
 
     public $isUpdate = false;
     public $isGroup = false;
@@ -31,7 +31,7 @@ class Leads extends Component
 
     public $selected = []; //when user click to checkbox
     public $model;
-    public $nom;
+
     public $fields = [
         'nom' => '',
         'prenom' => '',
@@ -40,7 +40,8 @@ class Leads extends Component
         'address' => '',
         'tele' => '',
         'produit' => '',
-        'group' => ''
+        'group_id' => '',
+
     ];
 
 
@@ -62,17 +63,30 @@ class Leads extends Component
         return view('livewire.lead.__basic', [
 
             //'leads' => $leadRepo->query()
-            'leads' =>    $leads->paginate(10)
+            'leads' =>    $leads->with(['group', 'moderator'])->paginate(10),
 
         ]);
     }
     public function setfilter()
     {
-        if (!is_array($this->filter) && isNull($this->filter)) {
+        if (!$this->data) {
 
-            return;
+            return $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.filter.warning')
+                ]
+            );
         }
-        $this->filter = array_filter(array_map('trim', $this->data));
+
+        if ($this->data && array_key_exists('from_to', $this->data)) {
+            $this->data['from_to'] = implode(',', array_reverse($this->data['from_to']));
+        }
+        $this->data = array_filter(array_map('trim', $this->data));
+
+        $this->filter = $this->data;
+        $this->data = null;
     }
 
     public function mount(
@@ -91,11 +105,14 @@ class Leads extends Component
     {
 
         $form = new LeadRequest();
+        //array_merge($this->fields, ['addedby' => 'abdo'])
         $form->merge($this->fields);
         $data = $form->validate($form->rules());
         $lead = $newLead->create($data);
         if ($lead) {
+
             $this->resetIput();
+
             return $this->sendNotificationTobrowser(
                 'attachedToAction',
                 [
@@ -118,15 +135,43 @@ class Leads extends Component
     }
     public function update(LeadRepositoryInterface $updateLead)
     {
+        $lead = $updateLead->findOrFail($this->leadId);
+
+        // $this->authorize('update', $lead);
+        $response = Gate::inspect('update', $lead);
+
+        if (!$response->allowed()) {
+            $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.permission.update')
+                ]
+            );
+            return;
+        }
+        if ($this->fields === $lead->toArray()) {
+            $this->sendNotificationTobrowser(
+                'attachedToAction',
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.added.update.nochange')
+                ]
+            );
+            return;
+        }
 
         $form = new LeadRequest();
         $form->setId($this->leadId);
         $form->merge($this->fields);
         $data = $form->validate($form->rules());
-
+        
         if ($this->leadId) {
+
             $lead =  $updateLead->update($data, $this->leadId);
+
             if ($lead) {
+                // event(new LeadCreated($lead));
                 $this->resetIput();
                 return $this->sendNotificationTobrowser(
                     'attachedToAction',

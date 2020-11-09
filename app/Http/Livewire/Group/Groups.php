@@ -31,7 +31,7 @@ class Groups extends Component
     public function mount(Group $group)
     {
 
-        $this->groups = $group::all();
+        $this->groups = $group::with('admin')->get();
         $this->authAdmin = Auth::id();
     }
 

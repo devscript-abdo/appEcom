@@ -10,8 +10,11 @@
             <li class="{{request()->routeIs('admin.cities') ? 'active':''}}"><a href="{{route('admin.cities')}}"><i class="fa fa-list-ul"></i><span>{{__('adminNav.admin.cities')}}</span></a></li>
             <li class="{{request()->routeIs('admin.groups') ? 'active':''}}"><a href="{{route('admin.groups')}}"><i class="fa fa-folder"></i><span>{{__('adminNav.admin.groups')}}</span></a></li>
             <li class="{{request()->routeIs('admin.leads') ? 'active':''}}"><a href="{{route('admin.leads')}}"><i class="fa fa-folder"></i><span>{{__('adminNav.admin.leads')}}</span></a></li>
+            <li class="{{request()->routeIs('admin.products') ? 'active':''}}"><a href="{{route('admin.products')}}"><i class="fa fa-shopping-bag"></i><span>{{__('adminNav.admin.products')}}</span></a></li>
+
             <li class="{{request()->routeIs('admin.moderators') ? 'active':''}}"><a href="{{route('admin.moderators')}}"><i class="fa fa-user"></i><span>{{__('adminNav.admin.moderators')}}</span></a></li>                      
             <li class="{{request()->routeIs('admin.todos') ? 'active':''}}"><a href="{{route('admin.todos')}}"><i class="fa fa-check-square-o"></i><span>{{__('adminNav.admin.todos')}}</span></a></li>
+            <li class="{{request()->routeIs('admin.settings') ? 'active':''}}"><a href="{{route('admin.settings')}}"><i class="fa fa-gear"></i><span>{{__('adminNav.admin.settings')}}</span></a></li>
 
             <li><a href="project-list.html"><i class="fa fa-list-ol"></i><span>Project list</span></a></li>
             <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>

@@ -15,6 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         //
+        return view('theme_a.products._livewire.index');
     }
 
     /**

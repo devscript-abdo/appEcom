@@ -47,7 +47,7 @@ class LeadRepository  implements LeadRepositoryInterface
 
 			$data->update($attributes);
 
-			return 	true;
+			return 	$data;
 		}
 		return false;
 	}

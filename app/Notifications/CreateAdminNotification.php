@@ -47,7 +47,7 @@ class CreateAdminNotification extends Notification
     {
         return (new MailMessage)
             ->subject('New Admin Created')
-            ->line('Name: ' . $this->admin->fullName())
+            ->line('Name: ' . $this->admin->fullname)
             ->line('Email: ' . $this->admin->email)
             ->line('Télé: ' . $this->admin->tele)
             ->line('Thank you for using our application!');

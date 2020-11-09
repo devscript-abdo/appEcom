@@ -49,6 +49,7 @@ class LeadRequest extends FormRequest
                 'tele' => 'required|numeric',
                 'produit' => 'required|string',
                 'group_id' => 'nullable|integer',
+               // 'addedby'=>'nullable|string',
 
             ];
     }
@@ -62,7 +63,8 @@ class LeadRequest extends FormRequest
 
     public function getId()
     {
-        return $this->leadId;
+        
+        $this->leadId;
     }
 
 

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable 
 {
     use HasFactory, Notifiable, HasRoles;
 
@@ -70,5 +70,10 @@ class Admin extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function products(){
+        
+        return $this->hasMany('App\Models\Product');
     }
 }

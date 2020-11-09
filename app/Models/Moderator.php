@@ -76,6 +76,11 @@ class Moderator extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function products(){
+        
+        return $this->hasMany('App\Models\Product');
+    }
     
    /* private function getAuthAdmin(){
       return Auth::user()->fullname;

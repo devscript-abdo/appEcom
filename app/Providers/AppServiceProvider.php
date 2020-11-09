@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Admin;
-use App\Observers\AdminObserver;
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+       
     }
 
     /**
@@ -26,8 +26,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       // Schema::enableForeignKeyConstraints();
+        // Schema::enableForeignKeyConstraints();
         Schema::disableForeignKeyConstraints();
-        Admin::observe(AdminObserver::class);
+        
+        Paginator::useBootstrap();
+
+        /* DB::listen(function ($query) {
+            // $query->sql
+            // $query->bindings
+            // $query->time
+        });*/
+   
     }
 }

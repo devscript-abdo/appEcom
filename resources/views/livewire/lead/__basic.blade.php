@@ -1,4 +1,5 @@
 <div>
+  
         @if($isUpdate)
          @include('livewire.lead.__update')
         @else
@@ -12,8 +13,9 @@
           @include('livewire.lead.__moderator')
         @endif
        @include('livewire.lead.__filter')
-       {{$leads->links()}}
+       
     <div class="row clearfix">
+        {{$leads->onEachSide(2)->links()}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -55,8 +57,8 @@
                                             <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </th>
-                                    {{--<th>{{__('leadData.lead.table.group')}}</th>
-                                    <th>{{__('leadData.lead.table.moderator')}}</th>--}}
+                                    <th>{{__('leadData.lead.table.group')}}</th>
+                                    <th>{{__('leadData.lead.table.moderator')}}</th>
                                     {{--<th>{{__('leadData.lead.table.fname')}}</th>
                                     <th>{{__('leadData.lead.table.lname')}}</th>--}}
                                     <th>{{__('leadData.lead.table.date')}}</th>
@@ -80,8 +82,8 @@
                                                     <span class="custom-control-label">&nbsp;</span>
                                                 </label>
                                             </td>
-                                            {{--<td>{{$lead->group->name ?? ''}}</td>
-                                            <td>{{$lead->moderator->fullname ??''}}</td>--}}
+                                            <td>{{$lead->group->name ?? ''}}</td>
+                                            <td>{{$lead->moderator->fullname ??''}}</td>
                                             {{--<td>{{$lead->nom}}</td>
                                             <td>{{$lead->prenom}}</td>--}}
                                             <td style="color:red">{{$lead->created_at}}</td>

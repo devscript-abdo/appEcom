@@ -18,8 +18,8 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        
-        return in_array('auth:admin', $request->route()->action["middleware"])
+        return in_array('auth:admin,moderator', $request->route()->action["middleware"])
             ? route('admin.login') : route('login');
+            ;
     }
 }

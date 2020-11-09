@@ -42,16 +42,24 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">{{__('date command')}}</label>
-                                        <input type="text" wire:model.defer="data.dateCommand" name="dateCommand" class="form-control @error('dateCommand') is-invalid @enderror" placeholder="{{__('leadData.lead.product')}}">
-                                        @error('produit')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                      
-                                    </div>
+                                    
+                                        <label class="form-label">Date filter <span class="text-danger">*</span></label>
+                                        <div class="col-md-10">
+                                            <div class="input-daterange input-group" data-provide="datepicker">
+                                                <input type="text" wire:model.defer="data.from_to.from"
+                                                  class="form-control @error('date_depart') is-invalid @enderror"
+                                                  name="start"
+                                                  onchange="this.dispatchEvent(new InputEvent('input'))"
+                                                  >
+                                                <span class="input-group-addon"> to </span>
+                                                <input  type="text" wire:model.defer="data.from_to.to"
+                                                 class="form-control @error('date_fin') is-invalid @enderror"
+                                                  name="end"
+                                                  onchange="this.dispatchEvent(new InputEvent('input'))"
+                                                  >
+                                            </div>
+                                        </div>
+                                   
                                 </div>
                                 {{--<div class="col-lg-5 col-md-12">
                                     <div class="form-group">

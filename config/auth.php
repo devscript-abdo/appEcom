@@ -50,14 +50,18 @@ return [
             'driver' => 'session',
             'provider' => 'moderators',
         ],
-
+        'delivery' => [
+            'driver' => 'session',
+            'provider' => 'deliveries',
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
         ],
     ],
-
+    
+    'authUser' => ['admin', 'moderator'],
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -87,6 +91,10 @@ return [
         'moderators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Moderator::class,
+        ],
+        'deliveries' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Delivery::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -125,6 +133,12 @@ return [
         ],
         'moderators' => [
             'provider' => 'moderators',
+            'table' => 'password_resets',
+            'expire' => 20,
+            'throttle' => 60,
+        ],
+        'deliveries' => [
+            'provider' => 'deliveries',
             'table' => 'password_resets',
             'expire' => 20,
             'throttle' => 60,
