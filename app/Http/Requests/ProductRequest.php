@@ -41,6 +41,7 @@ class ProductRequest extends FormRequest
             'photo' => 'nullable|string',
             'description' => 'required|string',
             'quantity' => 'required|integer',
+            'price' => 'required|integer',
             'category_id' => 'required|integer',
         ];
     }
@@ -54,6 +55,7 @@ class ProductRequest extends FormRequest
             'photo' => 'nullable|string',
             'description' => 'required|string',
             'quantity' => 'required|integer',
+            'price' => 'required|integer',
             'category_id' => 'required|integer',
 
         ];

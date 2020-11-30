@@ -15,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('theme_a.dashboard.index');
-});
-
 Route::get('/register', [HomeController::class, 'registerGet'])->name('register');
 Route::post('/register', [HomeController::class, 'register'])->name('register');
 
@@ -26,6 +22,3 @@ Route::get('/good', [HomeController::class, 'goodP'])->name('good');
 Route::post('/good', [HomeController::class, 'good'])->name('good');
 
 
-/*Auth::routes();*/
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

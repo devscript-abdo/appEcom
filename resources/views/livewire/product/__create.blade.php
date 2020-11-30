@@ -65,6 +65,21 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label
+                                        class="form-label">{{ __('productData.product.price') }}</label>
+                                    <input type="text" wire:model.defer="fields.price" name="price"
+                                        class="form-control @error('price') is-invalid @enderror"
+                                        placeholder="{{ __('productData.product.price') }}">
+                                    @error('price')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-lg-5 col-md-12">
                                 <div class="form-group">
                                     <label

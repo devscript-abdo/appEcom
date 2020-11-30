@@ -22,5 +22,7 @@ return [
     'admin.moderators'=>'Opératrices',
     'admin.todos'=>'Todo List',
     'admin.settings'=>'Settings',
-    'admin.products'=>'Products'
+    'admin.products'=>'Products',
+    'admin.commands'=>'Commands',
+    'admin.deliveries'=>'Deliveries'
 ];

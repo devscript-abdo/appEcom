@@ -5,6 +5,8 @@ namespace App\Repositories\Admin;
 interface AdminRepositoryInterface
 {
 
+    public function getInstance();
+
 	public function getAll();
 
 	public function getAdmin($id);
@@ -18,4 +20,8 @@ interface AdminRepositoryInterface
 	public function findOrFail($id);
 
 	public function deleteAdmin($id);
+
+	public function query();
+
+	public function with($relation);
 }

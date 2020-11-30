@@ -3,42 +3,62 @@
 namespace App\Repositories\Admin;
 
 use App\Models\Admin;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class AdminRepository implements AdminRepositoryInterface
 {
 	protected $model;
+    protected static $_instance;
 
 	public function __construct(Admin $model) {
 
         $this->model = $model;
     }
-	public function getAll(): Collection
+
+    public function getInstance()
+    {
+
+        if (is_null(self::$_instance)) {
+            self::$_instance = $this->model;
+        }
+
+        return self::$_instance;
+    }
+
+    public function query()
+    {
+        return $this->getInstance()->query();
+    }
+
+    public function with($relation)
+    {
+        return $this->query()->with($relation);
+    }
+	public function getAll()
 	{
-		return $this->model->all();
+        return $this->getInstance()->all();
 	}
 
-	public function getAdmin($id): Collection
+	public function getAdmin($id)
 	{
-		return $this->model->findOrFail($id);
+		return $this->getInstance()->findOrFail($id);
 	}
 
-	public function create(array $attributes): Model
+	public function create(array $attributes)
 	{
-		return $this->model->create($attributes);
+
+		return $this->getInstance()->create($attributes);
 	}
 
-	public function createWithRole(array $attributes): Model
+	public function createWithRole(array $attributes)
 	{
-		$admin = $this->model->create($attributes);
+		$admin = $this->getInstance()->create($attributes);
 		$admin->assignRole($attributes['role']);
 		return $admin;
 	}
 
 	public function findOrFail($id)
 	{
-		return $this->model->findOrFail($id);
+		return $this->getInstance()->findOrFail($id);
 	}
 
 	public function update(array $attributes, $id)

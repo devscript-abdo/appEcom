@@ -2,10 +2,10 @@
 
 @section('content')
 
-   {{-- @include('theme_a.admins.__top')--}}
-    {{--@include('theme_a.leads._livewire.__section_a')--}}
+
     @include('theme_a.leads._livewire.__section_b')
     @include('theme_a.leads._livewire.__section_c')
+
 @endsection
 
 @push('styles')
@@ -17,8 +17,10 @@
 @push('scripts')
 <script src="{{asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
    <script>
+
        function topFunction() {
             document.body.scrollTop = 0; // For Safari
+            
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
 

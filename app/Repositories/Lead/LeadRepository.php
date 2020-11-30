@@ -3,23 +3,36 @@
 namespace App\Repositories\Lead;
 
 use App\Models\Lead;
+use App\Repositories\LoggedGuard\LoggedGuardRepository;
 
-
-class LeadRepository  implements LeadRepositoryInterface 
+class LeadRepository  implements LeadRepositoryInterface
 {
 
 	protected $model;
 
-	public function __construct(Lead $model)
+	protected $authUser;
+	
+	public function __construct(Lead $model, LoggedGuardRepository $authUser)
 	{
 
 		$this->model = $model;
+		$this->authUser = $authUser;
 	}
 
+	public function auth()
+	{
+		return $this->authUser;
+	}
 	public function query()
 	{
 		return $this->model->query();
 	}
+
+	public function forLoggedUser()
+	{
+		return $this->model->where($this->authUser->getLoggedUserType() . '_id', $this->authUser->loggedUserId())->get();
+	}
+
 	public function all()
 	{
 		return $this->model->all();

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CommandController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AccountController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
@@ -65,9 +67,19 @@ Route::group([
         Route::post('/', [ProductController::class, 'store'])->name('products');
     });
 
+    Route::group(['prefix'=>'commands'],function(){
+        Route::get('/',[CommandController::class,'index'])->name('commands');
+        Route::post('/',[CommandController::class,'store'])->name('commands');
+    });
+
     Route::group(['prefix' => 'moderators'], function () {
         Route::get('/', [ModeratorController::class, 'index'])->name('moderators');
         Route::post('/', [ModeratorController::class, 'store'])->name('moderators');
+    });
+
+    Route::group(['prefix' => 'deliveries'], function () {
+        Route::get('/', [DeliveryController::class, 'index'])->name('deliveries');
+        Route::post('/', [DeliveryController::class, 'store'])->name('deliveries');
     });
 
     Route::group(['prefix' => 'todos'], function () {

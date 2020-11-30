@@ -3,50 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminCrudRequest;
-use App\Models\Admin;
-use App\Models\City;
-use App\Repositories\Admin\AdminRepositoryInterface;
-use Spatie\Permission\Models\Role;
+
 
 class AdminController extends Controller
 {
-    //
-    private $repository;
 
-    public function __construct(AdminRepositoryInterface $repository)
+
+    public function __construct()
     {
-
-        $this->repository = $repository;
-
         $this->middleware('auth:admin');
     }
 
     public function index()
     {
 
+        return view('theme_a.admins._livewire.index');
 
-        return view('theme_a.admins.index');
-        /* $villes = City::select('id', 'name', 'slug')->get();
-        $roles = Role::cursor();
-        return view('theme_a.admins.index', ['admins' => Admin::cursor(), 'villes' => $villes, 'roles' => $roles]);*/
     }
 
     public function create()
     {
-        $villes = City::select('id', 'name')->get();
-        $roles = Role::cursor();
-        return view('theme_a.admins.index', compact('villes', 'roles'));
+
     }
 
-    public function store(AdminCrudRequest $request)
+    public function store()
     {
-        $admin =  Admin::create(array_merge(['city_id' => $request->ville], $request->except(['token', 'ville'])));
-        $admin->assignRole($request->role);
-        // return $admin ? response()->noContent() : redirect()->back(); // Json response (Ajax request)
-        if ($admin) {
-            return back()->withGood(trans('adminCrud.admin.added.ok'));
-        }
-        return back()->withError(trans('adminCrud.admin.added.no'));
+
     }
 }

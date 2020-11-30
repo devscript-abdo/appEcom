@@ -1,15 +1,23 @@
-<?php 
+<?php
 
 namespace App\Repositories\Role;
 
 interface RoleRepositoryInterface{
-	
-	
-	public function getAll();
 
-	public function getRole($id);
 
-	public function getSelect(array $attributes);
- 
+    public function create($data);
+
+    public function update($data,$id);
+
+    public function query();
+
+	public function All();
+
+	public function Find($id);
+
+	public function Select(array $attributes);
+
+	public function delete($id);
+
 	// more
 }

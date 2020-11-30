@@ -14,7 +14,17 @@ class AdminCacheRepository implements AdminRepositoryInterface
     {
         $this->repo = $repo;
         $this->cache = $cache;
-        
+
+    }
+
+    public function query()
+    {
+        return $this->repo->query();
+    }
+
+    public function with($relation)
+    {
+        return $this->repo->query()->with($relation);
     }
 
     public function getAll()

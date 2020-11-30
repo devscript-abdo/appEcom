@@ -19,7 +19,7 @@ class AdminLoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'theadmin/';
+   // protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,8 +35,6 @@ class AdminLoginController extends Controller
         $this->middleware('guest:admin,moderator')->except('logout');
 
         $this->appGuard = $appGuard;
-
-        //$this->redirectTo = route('admin.dash');
     }
 
     public function showLoginForm()
@@ -67,15 +65,16 @@ class AdminLoginController extends Controller
     {
         if (!$request->has('guard') && !$request->filled('guard')) {
 
-            return;
+            return false;
         }
 
         $guard = $request->only('guard');
-       
+
         if (!isset($guard) && !in_array($guard['guard'], $this->appGuard)) {
 
-            return;
+            return false;
         }
+
         return $this->guard($guard['guard'])->attempt(
             $this->credentials($request),
             $request->filled('remember')
@@ -83,12 +82,18 @@ class AdminLoginController extends Controller
     }
 
     /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     * @param string $guard
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
      */
     protected function guard($guard = 'admin')
     {
         return Auth::guard($guard);
     }
+
+    private function redirectTo()
+    {
+       // dd($this->redirectTo);
+        return route('admin.dash');
+    }
+
 }

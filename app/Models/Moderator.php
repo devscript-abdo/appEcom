@@ -78,10 +78,16 @@ class Moderator extends Authenticatable
     }
 
     public function products(){
-        
+
         return $this->hasMany('App\Models\Product');
     }
-    
+
+    public function commands(){
+        return $this->hasMany('App\Models\Command')
+            ->where('moderator_id',$this->id)
+        ;
+    }
+
    /* private function getAuthAdmin(){
       return Auth::user()->fullname;
     }*/

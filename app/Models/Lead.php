@@ -50,7 +50,7 @@ class Lead extends Model
 
     public function getFullNameAttribute()
     {
-      
+
         return "{$this->nom} {$this->prenom}";
     }
 
@@ -71,7 +71,7 @@ class Lead extends Model
         parent::boot();
 
         static::creating(function ($query) {
-           
+
          //  $query->addedby = $authAdmin;
         });
     }

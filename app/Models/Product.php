@@ -18,6 +18,7 @@ class Product extends Model implements HasMedia
         'photo',
         'description',
         'quantity',
+        'price',
         'category_id',
         'active',
         'inStock',
@@ -80,4 +81,11 @@ class Product extends Model implements HasMedia
         }
         return;
     }
+
+    public function getCommandsAttribute()
+    {
+        return $this->commands()->count();
+    }
+
+
 }

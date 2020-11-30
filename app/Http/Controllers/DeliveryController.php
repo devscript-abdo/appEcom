@@ -7,14 +7,11 @@ use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function index()
     {
-        //
+        return view('theme_a.dilevery._livewire.index');
     }
 
     /**

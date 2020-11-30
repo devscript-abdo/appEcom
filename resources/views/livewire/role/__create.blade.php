@@ -14,11 +14,11 @@
                         @endif--}}
                     <form>
                         <div class="row clearfix">
-                            
+
                                 <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">{{__('roleCrud.role.name')}}</label>
-                                        <input type="text" wire:model.defer="name" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{__('roleCrud.role.name')}}">
+                                        <input type="text" wire:model.defer="fields.name" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{__('roleCrud.role.name')}}">
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
                                     <button wire:click.prevent="submit()" class="btn btn-primary">{{__('roleCrud.role.add.btn')}}</button>
                                     {{--<button  class="btn btn-default">Cancel</button>--}}
                                 </div>
-                            
+
                         </div>
                     </form>
                 </div>

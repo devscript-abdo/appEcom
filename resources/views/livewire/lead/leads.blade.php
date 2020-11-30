@@ -1,11 +1,10 @@
-{{---Part A--}}
 <div>
     @if($isUpdate)
       @include('livewire.lead.__update')
     @else
       @include('livewire.lead.__create')
     @endif
- 
+
     <div class="row clearfix haymacproduction">
         <div class="col-lg-12 haymacproduction">
             <div class="card haymacproduction">
@@ -56,13 +55,13 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            
+
                         </table>
                     </div>
                 </div>
             </div>
-        </div>                
+        </div>
     </div>
-<div>
-{{---Part B--}}
+</div>
+
 

@@ -17,7 +17,7 @@ class CreateCommandsTable extends Migration
             $table->id();
             $table->string('command_number')->unique();
             $table->unsignedInteger('command_quantity');
-            $table->string('product');
+            $table->string('command_price');
             $table->enum('status', ['pending', 'processing', 'completed', 'decline'])->default('pending');
             $table->boolean('payment_status')->default(1);
             $table->string('payment_method')->nullable();
@@ -31,11 +31,13 @@ class CreateCommandsTable extends Migration
             $table->string('tele', 20);
             $table->string('ville', 40);
             $table->string('address', 100);
+            $table->bigInteger('admin_id')->unsigned()->nullable();
 
             $table->bigInteger('lead_id')->unsigned()->nullable();
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->bigInteger('moderator_id')->unsigned()->nullable();
             $table->bigInteger('delivery_id')->unsigned()->nullable();
+            $table->foreign('admin_id')->references('id')->on('admins');
             $table->foreign('lead_id')->references('id')->on('leads');
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('moderator_id')->references('id')->on('moderators');

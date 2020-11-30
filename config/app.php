@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -184,7 +184,10 @@ return [
 
         /***** */
         App\Providers\RepositoryServiceProvider::class,
-        // App\Providers\RepositoryAdapterServiceProvider::class,
+        //App\Providers\RepositoryAdapterServiceProvider::class,
+
+        /****Elmarzougui Abdelghafour  */
+        App\Providers\DevlopperServiceProvider::class
 
     ],
 
@@ -237,6 +240,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Repositories\Product;
-use Illuminate\Database\Eloquent\Model;
-interface ProductRepositoryInterface
+
+interface ProductRepositoryInterface 
 {
+	
 	public function all();
 
 	public function find(int $id);
@@ -27,4 +28,5 @@ interface ProductRepositoryInterface
 	public function withRelations(array $relation);
 
 	public function getFilters();
+
 }

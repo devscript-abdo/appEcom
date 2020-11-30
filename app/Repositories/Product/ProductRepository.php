@@ -3,10 +3,12 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
+use App\Repositories\Root\RootRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+
 
     protected $model;
 
@@ -86,9 +88,15 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->select($fields)->get();
     }
 
+    public function whereColumn($colums){
+        return $this->model->whereColumn($colums)->get();
+    }
     public function destroy($id)
-	{
-		return $this->model->destroy($id);
-	}
+    {
+        return $this->model->destroy($id);
+    }
+
+
+    /***** */
 
 }

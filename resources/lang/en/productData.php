@@ -22,6 +22,7 @@ return [
     'product.photo' => 'Picture',
     'product.description' => 'Description',
     'product.quantity' => 'Quantity',
+    'product.price' => 'Price',
     'product.category' => 'Category',
     'product.active' => 'Active',
     'product.inStock' => 'In stock ?',
@@ -35,6 +36,8 @@ return [
     'product.added.update.nochange' => 'No change was detected',
     'product.added.delete' => 'product successfully deleted',
     'product.added.no' => 'problem when add this product',
+    /***************************************************** */
+    'product.quantity'=>'Quantity',
 
     /***********Table of data **************************/
     'product.table.date' => 'Created At',
@@ -43,6 +46,7 @@ return [
     'product.table.photo' => 'Photo',
     'product.table.description' => 'Description',
     'product.table.quantity' => 'Quantity',
+    'product.table.price' => 'Price',
     'product.table.category' => 'Category',
     'product.table.active' => 'Approved',
     'product.table.inStock' => 'In stock',

@@ -17,6 +17,21 @@ return [
     'admin.grid' => 'Grid',
     'admin.add' => 'Add new admin',
 
+    /******************Table******************/
+
+    'admin.table.code' => 'CODE',
+    'admin.table.date' => 'Created At',
+    'admin.table.fullname' => 'Full name',
+    'admin.table.fname' => 'Fisrt name',
+    'admin.table.lname' => 'Last name',
+    'admin.table.email' => 'Email',
+    'admin.table.city' => 'City',
+    'admin.table.address' => 'Address',
+    'admin.table.tele' => 'Phone',
+    'admin.table.status' => 'Status',
+    'admin.table.action' => 'Action',
+
+    /************************************** */
     /****** admin add form */
     'admin.nom' => 'First name',
     'admin.prenom' => 'Last name',
@@ -31,6 +46,10 @@ return [
     /******Created/Non Created message */
     'admin.added.ok' => 'account successfully created',
     'admin.added.no' => 'problem when add this account',
+    /****************************************************/
+
+    'admin.delete.success' => "la suppression a été effectuée",
+    'admin.delete.error' => "un probleme est survenu lors de la suppression",
 
 
 ];

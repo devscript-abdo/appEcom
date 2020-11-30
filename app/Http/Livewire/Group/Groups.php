@@ -32,6 +32,7 @@ class Groups extends Component
     {
 
         $this->groups = $group::with('admin')->get();
+        
         $this->authAdmin = Auth::id();
     }
 

@@ -34,17 +34,11 @@ class Products extends Component
 
     public $fields = [
         'name' => '',
-        // 'slug' => '',
         'photo' => '',
         'description' => '',
         'quantity' => '',
+        'price'=>'',
         'category_id' => '',
-        // 'active' => '',
-        //'inStock' => '',
-        //'commands' => '',
-        //'admin_id' => '',
-        //'moderator_id' => '',
-
     ];
 
     protected $model;
@@ -57,6 +51,7 @@ class Products extends Component
         ProductRepositoryInterface $product,
         CategoryRepositoryInterface $category
     ) {
+        //$this->categories = $category->all();
         $this->categories = $category->selectWithType(['name', 'id'], 'products');
         $this->model = $product;
         $this->authAdmin = $loggedUser->loggedUser();
@@ -68,7 +63,9 @@ class Products extends Component
 
         return view('livewire.product.products', [
 
-            'products' =>    $product->withRelations(['category', 'admin'])->paginate(10),
+            'products' =>    $product->withRelations(['category', 'admin','commands'])
+            ->withCount('commands')
+            ->paginate(10),
             // 'products' =>    $product->paginate(10)
         ]);
     }
@@ -94,28 +91,23 @@ class Products extends Component
         $this->data = null;
     }
 
-
     public function submit(ProductRepositoryInterface $newproduct, LoggedGuardRepositoryInterface $auth)
     {
+
+
         $relation = $auth->getLoggedUserType();
         $form = new ProductRequest();
         $form->merge($this->fields);
         $data = $form->validate($form->rules());
+
         $product = $newproduct->create($data);
         if ($product) {
-   
+
             $product->$relation()->associate($auth->loggedUserId())->save();
 
             $this->resetIput();
 
-            return $this->sendNotificationTobrowser(
-                'attachedToAction',
-                [
-                    'type' => 'success',
-                    'message' => trans('productData.product.added.ok')
-                ]
-            );
-            //return redirect()->route('admin.leads');
+            return $this->sendNotificationTobrowser(['type' => 'success', 'message' => trans('productData.product.added.ok')]);
         }
     }
 
@@ -126,7 +118,7 @@ class Products extends Component
 
         if (!$response->allowed()) {
             $this->sendNotificationTobrowser(
-                'attachedToAction',
+
                 [
                     'type' => 'warning',
                     'message' => trans('leadData.lead.permission.update')
@@ -150,7 +142,7 @@ class Products extends Component
 
         if ($this->fields === $product->toArray()) {
             $this->sendNotificationTobrowser(
-                'attachedToAction',
+
                 [
                     'type' => 'warning',
                     'message' => trans('productData.product.added.update.nochange')
@@ -172,7 +164,7 @@ class Products extends Component
                 // event(new LeadCreated($lead));
                 $this->resetIput();
                 return $this->sendNotificationTobrowser(
-                    'attachedToAction',
+
                     [
                         'type' => 'success',
                         'message' => trans('productData.product.added.update')
@@ -187,7 +179,7 @@ class Products extends Component
         if ($id) {
             return  $deleteProduct->delete($id) ?
                 $this->sendNotificationTobrowser(
-                    'attachedToAction',
+
                     [
                         'type' => 'success',
                         'message' => trans('productData.product.added.delete')
@@ -195,7 +187,7 @@ class Products extends Component
                 )
                 :
                 $this->sendNotificationTobrowser(
-                    'attachedToAction',
+
                     [
                         'type' => 'error',
                         'message' => trans('productData.product.delete.error')
@@ -224,7 +216,7 @@ class Products extends Component
         if (!$this->selected) {
 
             return $this->sendNotificationTobrowser(
-                'attachedToAction',
+
                 [
                     'type' => 'warning',
                     'message' => trans('productData.product.export.select')
@@ -236,7 +228,7 @@ class Products extends Component
         if ($this->selected) {
             $products->destroy(array_filter($this->selected));
             return $this->sendNotificationTobrowser(
-                'attachedToAction',
+
                 [
                     'type' => 'success',
                     'message' => trans('productData.product.delete.success')
@@ -245,7 +237,7 @@ class Products extends Component
             // return redirect()->route('admin.leads');
         }
         return $this->sendNotificationTobrowser(
-            'attachedToAction',
+
             [
                 'type' => 'error',
                 'message' => trans('productData.product.delete.success')
@@ -254,8 +246,8 @@ class Products extends Component
         //return redirect(route('admin.leads'))->withError('Sorry problem detected');
     }
 
-    private function sendNotificationTobrowser($name, $options = [])
+    private function sendNotificationTobrowser($options = [])
     {
-        $this->dispatchBrowserEvent($name, $options);
+        $this->dispatchBrowserEvent('attachedToAction', $options);
     }
 }

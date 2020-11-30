@@ -7,15 +7,19 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class ItemsQuery extends QueryBuilder
 {
-    public function __construct(array $filter = [], $model)
+
+    protected $model;
+
+    public function __construct($model, array $filters = [])
     {
         //request()->query->set('filter', $filter);
+        $this->model = $model;
 
-        $query = $model->query();
+        $query = $this->model->getInstance()->query();
 
         parent::__construct($query, request());
-        
-        $this->request->query->set('filter', $filter);
+
+        $this->request->query->set('filter', $filters);
         // $this->request->appends(request()->query());
 
         $this->allowedFilters([
@@ -23,5 +27,11 @@ class ItemsQuery extends QueryBuilder
             AllowedFilter::scope('from_to'),
             //AllowedFilter::exact('dateCommand', 'created_at'),
         ]);
+    }
+
+    public function app()
+    {
+        return app(get_class($this->model->getInstance()));
+
     }
 }

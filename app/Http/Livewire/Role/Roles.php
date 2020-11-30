@@ -2,98 +2,127 @@
 
 namespace App\Http\Livewire\Role;
 
+use App\Services\RoleService;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
 
 class Roles extends Component
 {
-    public $roles;
     public $isUpdate = false;
-
-    public $name;
     public $roleId;
 
-    /*  public function render()
-    {
-        return view('livewire.role.roles');
-    }*/
+    public $fields=['name'=>''];
 
-    public function mount(Role $role)
+    public function render(RoleService $roleService)
     {
-
-        $this->roles = $role::all();
+        return view('livewire.role.roles',[
+            'roles'=>$roleService->getInstance()->All()
+        ]);
     }
 
-    public function submit()
+    public function mount()
     {
-        $this->validate([
-            'name' => 'required|string|unique:roles',
-        ]);
 
-        // Execution doesn't reach here if validation fails.
+    }
 
-        $role = Role::create([
-            'name' => $this->name,
-        ]);
-
-        if ($role) {
-            $this->resetIput();
-            return redirect()->route('admin.roles');
+    public function submit(RoleService $roleService)
+    {
+        if(!isset($this->fields) || !is_array($this->fields)){
+            return false;
         }
-    }
+        $role = $roleService->execute('create',$this->fields);
+        if($role){
 
-
-    public function editRole($id)
-    {
-        $role = Role::findOrFail($id);
-        $this->roleId = $role->id;
-        $this->name = $role->name;
-
-        $this->isUpdate = true;
-        // return view('livewire.edit-admin');
-    }
-    public function update()
-    {
-        //dd('yyyy');
-        // The current user can update the post...
-        $this->validate([
-
-            'name' => 'required|string|unique:roles,name,' . $this->roleId,
-        ]);
-       
-
-        // Execution doesn't reach here if validation fails.
-        if ($this->roleId) {
-            $role = Role::findOrFail($this->roleId);
-            $role->update([
-                'name' => $this->name,
-
+            $this->resetInput();
+            return $this->sendNotificationTobrowser([
+                'type' => 'success',
+                'message' => trans('deliveryData.delivery.added.ok')
             ]);
+        }
+        return false;
+    }
 
-            if ($role) {
-                $this->resetIput();
-                return redirect()->route('admin.roles');
+
+    public function editRole(RoleService $roleService,$id)
+    {
+        $role = $roleService->getInstance()->Find($id);
+        $this->roleId = $role->id;
+        $this->fields = $role->toArray();
+        $this->isUpdate = true;
+
+    }
+    public function update(RoleService $roleService)
+    {
+        if(!isset($this->roleId) || !is_int($this->roleId)) return false;
+
+        $r = $roleService->getInstance()->Find($this->roleId);
+
+        if ($this->fields ===  $r->toArray()) {
+            return $this->sendNotificationTobrowser(
+
+                [
+                    'type' => 'warning',
+                    'message' => trans('leadData.lead.added.update.nochange')
+                ]
+            );
+
+        }
+
+        if ($this->roleId) {
+
+            $r = $roleService->execute('update', $this->fields);
+
+            if ($r) {
+                $this->resetInput();
+                return $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('leadData.lead.added.update')
+                    ]
+                );
             }
         }
+        return false;
     }
-    public function deleteRole($id)
+    public function deleteRole(RoleService $roleService,$id)
     {
         if ($id) {
-            $role = Role::findOrFail($id);
-            $role->delete();
-            return redirect()->route('admin.roles');
+            $roleService->getInstance()->delete($id) ?
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('leadData.lead.added.delete')
+                    ]
+                )
+                :
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'error',
+                        'message' => trans('leadData.lead.delete.error')
+                    ]
+                );
         }
     }
 
     public function cancel()
     {
         $this->isUpdate = false;
-        $this->resetIput();
+        $this->resetInput();
     }
 
     /**** private method ***/
-    private function resetIput()
+    private function resetInput()
     {
-        $this->name = null;
+        $this->fields = null;
+    }
+
+
+
+
+    private function sendNotificationTobrowser($options = [])
+    {
+        $this->dispatchBrowserEvent('attachedToAction', $options);
     }
 }

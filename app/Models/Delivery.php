@@ -21,16 +21,12 @@ class Delivery extends Authenticatable
      */
     protected $fillable = [
         'nom',
-        'prenom',
-        'email',
-        'city_id',
-        'tele',
+        'prenom' ,
+        'email' ,
+        'password' ,
+        'city_id' ,
         'address',
-        'ville',
-        'approved',
-        'password',
-        'biography',
-        'addedBy'
+        'tele'
     ];
 
     /**
@@ -38,9 +34,17 @@ class Delivery extends Authenticatable
      *
      * @var array
      */
+
     protected $hidden = [
         'password',
         'remember_token',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'approved',
+        'moderator_id',
+        'addedBy',
+        //'email_verified_at'
     ];
 
     /**
@@ -61,6 +65,11 @@ class Delivery extends Authenticatable
         return $this->belongsTo('App\Models\City', 'city_id');
     }
 
+    public function commands(){
+
+        return $this->hasMany('App\Models\Command');
+    }
+
 
     public function getFullNameAttribute()
     {
@@ -71,5 +80,5 @@ class Delivery extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
-    
+
 }

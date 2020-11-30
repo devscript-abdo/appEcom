@@ -25,6 +25,9 @@ interface LeadRepositoryInterface
 
 	public function query();
 
+	public function forLoggedUser();
+
+	public function auth();
 	
 
 	// more

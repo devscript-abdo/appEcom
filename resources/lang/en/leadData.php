@@ -29,6 +29,8 @@ return [
     'lead.moderator' => 'Opératrice',
     'lead.add.btn' => 'Add',
     'lead.update.btn' => 'update',
+
+    'lead.product' => 'Product',
     /******Created/Non Created message *****************/
     'lead.added.ok' => 'lead successfully created',
     'lead.added.update' => 'lead successfully updated',
@@ -36,6 +38,9 @@ return [
     'lead.added.delete' => 'lead successfully deleted',
     'lead.added.no' => 'problem when add this lead',
 
+    'lead.quantity' => 'Quantity',
+    'lead.total' => 'Total Price',
+    'lead.notes' => 'Notes',
     /***********Table of data **************************/
     'lead.table.date' => 'Created At',
     'lead.table.fullname' => 'Full name',

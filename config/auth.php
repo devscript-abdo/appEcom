@@ -61,7 +61,7 @@ return [
         ],
     ],
     
-    'authUser' => ['admin', 'moderator'],
+    'authUser' => ['admin', 'moderator','delivery'],
     /*
     |--------------------------------------------------------------------------
     | User Providers

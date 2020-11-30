@@ -21,7 +21,7 @@ class Cities extends Component
     public function mount(City $city)
     {
 
-        $this->cities = $city::all();
+        $this->cities = $city::select(['name'])->get();
     }
 
     public function submit()

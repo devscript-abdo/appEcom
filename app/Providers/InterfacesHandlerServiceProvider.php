@@ -13,10 +13,14 @@ class InterfacesHandlerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       
+
         $this->app->when('App\Repositories\Product\ProductRepository')
             ->needs('$allowedsFilters')
-            ->give(['reports','ok','Abdo']);
+            ->give(['reports', 'ok', 'Abdo']);
+
+        $this->app->when('App\Repositories\Product\ProductCacheRepository')
+            ->needs('$allowedsFilters')
+            ->give(['reports', 'ok', 'Abdo']);
     }
 
     /**

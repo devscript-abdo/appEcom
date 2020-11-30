@@ -9,11 +9,9 @@
 
 <!-- Bootstrap Core and vandor -->
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
-@stack('styles')
-<!-- Plugins css -->
-<link rel="stylesheet" href="{{asset('assets/plugins/charts-c3/c3.min.css')}}"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <!-- Core css -->
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
+@stack('styles')
 {{--<livewire:styles />--}}

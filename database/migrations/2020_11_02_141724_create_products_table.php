@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('photo')->nullable();
             $table->longText('description')->nullable();
             $table->bigInteger('quantity')->default(0);
+            $table->integer('price')->unsigned()->nullable();
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('inStock')->default(true);

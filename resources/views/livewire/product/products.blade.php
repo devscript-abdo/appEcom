@@ -1,6 +1,5 @@
 <div>
  
-
     @if($isUpdate)
         @include('livewire.product.__update')
     @else
@@ -57,15 +56,10 @@
            
                                     <th>{{ __('productData.product.table.date') }}</th>
                                     <th>{{ __('productData.product.table.name') }}</th>
-                                    <th>{{ __('productData.product.table.slug') }}</th>
-                                    <th>{{ __('productData.product.table.photo') }}</th>
-                                    <th>{{ __('productData.product.table.description') }}</th>
-                                    <th>{{ __('productData.product.table.quantity') }}</th>
                                     <th>{{ __('productData.product.table.category') }}</th>
-                                    <th>{{ __('productData.product.table.active') }}</th>
-                                    <th>{{ __('productData.product.table.inStock') }}</th>
-                                    <th>{{ __('productData.product.table.commands') }}</th>
-                                    <th>{{ __('productData.product.table.user') }}</th>                                
+                                    <th>{{ __('productData.product.table.quantity') }}</th>
+                                    <th>{{ __('productData.product.table.price') }}</th>
+                                    <th>{{ __('productData.product.table.commands') }}</th>                              
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -82,22 +76,13 @@
                                                 <span class="custom-control-label">&nbsp;</span>
                                             </label>
                                         </td>
-                                       {{--<td>{{ $product->group->name ?? '' }}</td>
-                                        <td>{{ $product->moderator->fullname ??'' }}</td>--}}
-                                        {{-- <td>{{$product->nom }}</td>
-                                        <td>{{ $product->prenom }}</td>--}}
                                         <td style="color:red">{{ $product->created_at }}</td>
                                         <td>{{ $product->name }}</td>
-                                        {{-- <td>{{$product->email }}</td>--}}
-                                        <td>{{ $product->slug }}</td>
-                                        <td>{{ $product->photo }}</td>
-                                        <td>{{ $product->description }}</td>
-                                        <td>{{ $product->quantity }}</td>
                                         <td>{{ $product->category->name }}</td>
-                                        <td>{{ $product->active }}</td>
-                                        <td>{{ $product->inStock }}</td>
-                                        <td>{{ $product->commands }}</td>
-                                        <td>{{ $product->user }}</td>
+                                        <td>{{ $product->quantity }}</td>
+                                        <td>{{ $product->price }}</td>
+                                        <td>{{ $product->commands_count }}</td>
+
                                         <td><a wire:click="editProduct({{ $product->id }})" href="javascript:void(0);"
                                                 class="btn btn-success btn-sm" onclick="topFunction()">Edit</a></td>
                                         <td><button wire:click="deleteProduct({{ $product->id }})"
