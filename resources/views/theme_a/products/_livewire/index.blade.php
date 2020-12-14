@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('theme_a.products._livewire.__section_b')
+    {{--@include('theme_a.products._livewire.__section_b')--}}
     @include('theme_a.products._livewire.__section_c')
 
 @endsection

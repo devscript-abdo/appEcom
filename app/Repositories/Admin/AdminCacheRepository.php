@@ -17,6 +17,9 @@ class AdminCacheRepository implements AdminRepositoryInterface
 
     }
 
+    public function  getInstance(){
+        
+    }
     public function query()
     {
         return $this->repo->query();

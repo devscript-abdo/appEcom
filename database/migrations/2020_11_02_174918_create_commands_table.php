@@ -23,7 +23,7 @@ class CreateCommandsTable extends Migration
             $table->string('payment_method')->nullable();
             $table->string('code')->unique()->nullable();
             $table->longText('notes')->nullable();
-
+            $table->string('productName',100)->nullable();
             $table->string('nom', 80);
             $table->string('prenom', 80);
             $table->string('nomcomplet', 100)->nullable();
@@ -41,7 +41,7 @@ class CreateCommandsTable extends Migration
             $table->foreign('lead_id')->references('id')->on('leads');
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('moderator_id')->references('id')->on('moderators');
-            $table->foreign('delivery_id')->references('id')->on('moderators');
+            $table->foreign('delivery_id')->references('id')->on('deliveries');
 
             $table->timestamps();
         });

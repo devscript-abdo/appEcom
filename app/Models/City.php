@@ -18,8 +18,9 @@ class City extends Model
         return $this->hasMany('App\Models\Admin');
     }
 
-    public function setSlugAttribute($value)
+    public function setNameAttribute($value)
     {
+        $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 

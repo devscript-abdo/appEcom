@@ -1,5 +1,5 @@
 <div>
- 
+
     @if($isUpdate)
         @include('livewire.product.__update')
     @else
@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('productData.product.list') }}</h3>
+                    <h3 class="card-title">{{ __('tables.list') }}</h3>
 
                     <div class="card-options">
                         <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i
@@ -53,13 +53,13 @@
                                             <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </th>
-           
-                                    <th>{{ __('productData.product.table.date') }}</th>
-                                    <th>{{ __('productData.product.table.name') }}</th>
-                                    <th>{{ __('productData.product.table.category') }}</th>
-                                    <th>{{ __('productData.product.table.quantity') }}</th>
-                                    <th>{{ __('productData.product.table.price') }}</th>
-                                    <th>{{ __('productData.product.table.commands') }}</th>                              
+
+                                    <th>{{ __('tables.date') }}</th>
+                                    <th>{{ __('tables.name') }}</th>
+                                    <th>{{ __('tables.category') }}</th>
+                                    <th>{{ __('tables.quantity') }}</th>
+                                    <th>{{ __('tables.price') }}</th>
+                                    <th>{{ __('tables.commands') }}</th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -84,7 +84,10 @@
                                         <td>{{ $product->commands_count }}</td>
 
                                         <td><a wire:click="editProduct({{ $product->id }})" href="javascript:void(0);"
-                                                class="btn btn-success btn-sm" onclick="topFunction()">Edit</a></td>
+                                                class="btn btn-success btn-sm" onclick="topFunction()">
+                                            {{__('action.edit')}}
+                                            </a>
+                                        </td>
                                         <td><button wire:click="deleteProduct({{ $product->id }})"
                                                 class="btn btn-danger btn-sm"><i class="icon-trash"></i></button></td>
                                     </tr>

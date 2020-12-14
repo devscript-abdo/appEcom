@@ -97,7 +97,7 @@ class Leads extends Component
 
         $relation = $lead->getInstance()->auth()->getLoggedUserType();
 
-        $leads = new ItemsQuery($lead,$this->filter);
+        $leads = new ItemsQuery($lead, $this->filter);
 
         if ($relation === 'moderator') {
 
@@ -129,7 +129,7 @@ class Leads extends Component
             $this->resetIput();
             return $this->sendNotificationTobrowser([
                 'type' => 'success',
-                'message' => trans('leadData.lead.added.ok')
+                'message' => trans('messages.added.ok')
             ]);
         }
         return false;
@@ -163,7 +163,7 @@ class Leads extends Component
 
                 [
                     'type' => 'warning',
-                    'message' => trans('leadData.lead.added.update.nochange')
+                    'message' => trans('messages.nochange')
                 ]
             );
 
@@ -179,12 +179,12 @@ class Leads extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('leadData.lead.added.update')
+                        'message' => trans('messages.updated.ok')
                     ]
                 );
             }
         }
-        return false ;
+        return false;
     }
 
     /**
@@ -199,7 +199,7 @@ class Leads extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('leadData.lead.added.delete')
+                        'message' => trans('messages.deleted.ok')
                     ]
                 )
                 :
@@ -207,7 +207,7 @@ class Leads extends Component
 
                     [
                         'type' => 'error',
-                        'message' => trans('leadData.lead.delete.error')
+                        'message' => trans('messages.deleted.no')
                     ]
                 );
         }
@@ -223,10 +223,18 @@ class Leads extends Component
         $this->resetIput();
     }
 
+    public function cancelCmd(): void
+    {
+        $this->isCommand = false;
+        $this->isCreate = true;
+        $this->resetIput();
+    }
+
     /**** private method ***/
     private function resetIput()
     {
         $this->fields = null;
+        $this->commands = null;
     }
 
     /**
@@ -251,16 +259,30 @@ class Leads extends Component
      */
     public function generateCommand(LeadService $Lead, CommandService $command)
     {
+
         if (is_null($this->commands) || is_null($this->commanderId)) {
+
             return exit;
         }
         if (!isset($this->commands['product_id'])) {
-            return exit;
+            return $this->sendNotificationTobrowser(
+
+                [
+                    'type' => 'warning',
+                    'message' => "selecionner un produit"
+                ]
+            );
         }
         if (isset($this->commanderId) && intval($this->commanderId)) {
             $lead = $Lead->getInstance()->findOrFail($this->commanderId);
             $exit = $command->execute('alreadyCommanded', ['lead' => $this->commanderId, 'product' => $this->commands['product_id']]);
             if ($exit) {
+
+                $this->resetIput();
+
+                $this->isCreate = true;
+                $this->isCommand = false;
+
                 return $this->sendNotificationTobrowser(
 
                     [
@@ -278,16 +300,17 @@ class Leads extends Component
 
                     $this->resetIput();
 
-                      $this->sendNotificationTobrowser(
+                   return  $this->sendNotificationTobrowser(
 
                         [
                             'type' => 'success',
-                            'message' => trans('leadData.lead.added.ok')
+                            'message' => trans('la command a bien généréer')
                         ]
                     );
                 }
             }
         }
+        return exit;
     }
 
     /**
@@ -296,14 +319,14 @@ class Leads extends Component
     public function moveTo($action)
     {
         if (!$this->selected || !$action) {
-            return  $this->sendNotificationTobrowser(
+            return $this->sendNotificationTobrowser(
 
                 [
                     'type' => 'warning',
                     'message' => trans('leadData.lead.export.select')
                 ]
             );
-            return;
+
         }
         switch ($action) {
             case 'group':
@@ -355,7 +378,7 @@ class Leads extends Component
             );
             // return redirect()->route('admin.leads');
         }
-        $this->sendNotificationTobrowser(
+       return  $this->sendNotificationTobrowser(
 
             [
                 'type' => 'error',
@@ -382,20 +405,20 @@ class Leads extends Component
         }
         if ($this->selected) {
             $leads->getInstance()->destroy(array_filter($this->selected));
-            return  $this->sendNotificationTobrowser(
+            return $this->sendNotificationTobrowser(
 
                 [
                     'type' => 'success',
-                    'message' => trans('leadData.lead.delete.success')
+                    'message' => trans('messages.deleted.ok')
                 ]
             );
             // return redirect()->route('admin.leads');
         }
-       return $this->sendNotificationTobrowser(
+        return $this->sendNotificationTobrowser(
 
             [
                 'type' => 'error',
-                'message' => trans('leadData.lead.delete.success')
+                'message' => trans('messages.deleted.no')
             ]
         );
     }
@@ -417,6 +440,7 @@ class Leads extends Component
         }
 
         if ($this->data && array_key_exists('from_to', $this->data)) {
+
             $this->data['from_to'] = implode(',', array_reverse($this->data['from_to']));
         }
         $this->data = array_filter(array_map('trim', $this->data));
@@ -424,7 +448,6 @@ class Leads extends Component
         $this->filter = $this->data;
         $this->data = null;
     }
-
 
 
     private function sendNotificationTobrowser($options = [])

@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('adminCrud.admin.list') }}</h3>
+                    <h3 class="card-title">{{ __('tables.list') }}</h3>
 
                     <div class="card-options">
                         <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i
@@ -42,21 +42,18 @@
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap">
                             <thead>
-                            <tr>
-                                <th colspan="5">Ticket Detail</th>
-                                <th colspan="3">Activity</th>
-                            </tr>
+
                             <tr>
                                 <th class="w30">&nbsp;</th>
-                                <th>{{__('adminCrud.admin.table.fullname')}}</th>
-                                <th>{{__('adminCrud.admin.table.city')}}</th>
-                                {{--<th>{{__('adminCrud.admin.table.address')}}</th>--}}
-                                <th>{{__('adminCrud.admin.table.tele')}}</th>
-                                <th>{{__('adminCrud.admin.table.email')}}</th>
-                                <th>{{__('adminCrud.admin.table.status')}}</th>
+                                <th>{{__('tables.fullname')}}</th>
+                                <th>{{__('tables.city')}}</th>
+                                {{--<th>{{__('tables.address')}}</th>--}}
+                                <th>{{__('tables.tele')}}</th>
+                                <th>{{__('tables.email')}}</th>
+                                <th>{{__('tables.status')}}</th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
+                       
                             </tr>
                             </thead>
                             <tbody>
@@ -80,7 +77,9 @@
                                     <td><span class="tag tag-default">{{$user->status}}</span></td>
                                     <td>
                                         <a wire:click="editAdmin({{ $user->id }})" href="javascript:void(0);"
-                                           class="btn btn-success btn-sm" onclick="topFunction()">Edit</a>
+                                           class="btn btn-success btn-sm" onclick="topFunction()">
+                                           {{__('action.edit')}}
+                                        </a>
                                     </td>
                                     <td>
                                         <button wire:click="deleteAdmin({{ $user->id }})"

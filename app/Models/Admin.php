@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
+
 class Admin extends Authenticatable implements CanResetPassword
 {
     use HasFactory, Notifiable, HasRoles;
@@ -51,6 +52,9 @@ class Admin extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * @var mixed
+     */
 
     public function city()
     {
@@ -89,5 +93,10 @@ class Admin extends Authenticatable implements CanResetPassword
         return $this->hasMany('App\Models\Command')
             ->where('admin_id', $this->id)
             ->orWhere('admin_id', null);
+    }
+
+    public function treasuries(){
+
+        return $this->hasMany('App\Models\Treasury');
     }
 }

@@ -16,6 +16,11 @@ class ModeratorRepository implements ModeratorRepositoryInterface
 		$this->model = $model;
 	}
 
+    public function query()
+    {
+        return $this->model->query();
+    }
+
 	public function all(): Collection
 	{
 		return $this->model->all();
@@ -67,4 +72,9 @@ class ModeratorRepository implements ModeratorRepositoryInterface
 	{
 		return $this->model->select($fields)->get();
 	}
+
+	public function with(array $relations)
+    {
+        return $this->query()->with($relations);
+    }
 }

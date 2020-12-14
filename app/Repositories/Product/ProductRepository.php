@@ -3,7 +3,6 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
-use App\Repositories\Root\RootRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
@@ -33,7 +32,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function withRelations(array $relation)
     {
-        return $this->model->query()->with($relation);
+        return $this->query()->with($relation);
     }
 
     public function all(): Collection
@@ -89,11 +88,12 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     public function whereColumn($colums){
+
         return $this->model->whereColumn($colums)->get();
     }
-    public function destroy($id)
+    public function destroy($ids)
     {
-        return $this->model->destroy($id);
+        return $this->model->destroy($ids);
     }
 
 

@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CityRequest extends FormRequest
 {
+
+    private $cityId;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,8 +26,19 @@ class CityRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'=>'required|unique:cities'
-        ];
+        return isset($this->cityId) ?
+            [
+                'name' => ['required', 'string', Rule::unique('cities')->ignore($this->cityId)],
+
+
+            ] : [
+                'name' => 'required|string|unique:cities',
+
+            ];
+    }
+
+    public function setId($id)
+    {
+        $this->cityId = $id;
     }
 }

@@ -10,10 +10,10 @@
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.name') }}</label>
+                                        class="form-label">{{ __('forms.name') }}</label>
                                     <input type="text" wire:model.defer="fields.name" name="name"
                                         class="form-control @error('name') is-invalid @enderror"
-                                        placeholder="{{ __('productData.product.name') }}">
+                                        placeholder="{{ __('forms.name') }}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -25,10 +25,10 @@
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.photo') }}</label>
+                                        class="form-label">{{ __('forms.photo') }}</label>
                                     <input type="text" wire:model.defer="fields.photo" name="photo"
                                         class="form-control @error('photo') is-invalid @enderror"
-                                        placeholder="{{ __('productData.product.photo') }}">
+                                        placeholder="{{ __('forms.photo') }}">
                                     @error('photo')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -39,10 +39,10 @@
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.description') }}</label>
+                                        class="form-label">{{ __('forms.description') }}</label>
                                     <input type="text" wire:model.defer="fields.description" name="description"
                                         class="form-control @error('description') is-invalid @enderror"
-                                        placeholder="{{ __('productData.product.description') }}">
+                                        placeholder="{{ __('forms.description') }}">
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -53,10 +53,10 @@
                             <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.quantity') }}</label>
+                                        class="form-label">{{ __('forms.quantity') }}</label>
                                     <input type="text" wire:model.defer="fields.quantity" name="quantity"
                                         class="form-control @error('quantity') is-invalid @enderror"
-                                        placeholder="{{ __('productData.product.quantity') }}">
+                                        placeholder="{{ __('forms.quantity') }}">
                                     @error('quantity')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -68,10 +68,10 @@
                             <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.price') }}</label>
+                                        class="form-label">{{ __('forms.price') }}</label>
                                     <input type="text" wire:model.defer="fields.price" name="price"
                                         class="form-control @error('price') is-invalid @enderror"
-                                        placeholder="{{ __('productData.product.price') }}">
+                                        placeholder="{{ __('forms.price') }}">
                                     @error('price')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -83,7 +83,7 @@
                             <div class="col-lg-5 col-md-12">
                                 <div class="form-group">
                                     <label
-                                        class="form-label">{{ __('productData.product.category') }}</label>
+                                        class="form-label">{{ __('forms.category') }}</label>
                                     <select wire:model.defer="fields.category_id" name="category_id"
                                         class="custom-select @error('category_id') is-invalid @enderror">
                                         <option wire:key="" value=""></option>
@@ -104,7 +104,7 @@
                                 </div>--}}
                             <div class="col-lg-12 mt-3">
                                 <button wire:click.prevent="submit()"
-                                    class="btn btn-primary">{{ __('productData.product.add.btn') }}</button>
+                                    class="btn btn-primary">{{ __('action.add') }}</button>
                                 {{-- <button  class="btn btn-default">Cancel</button> --}}
                             </div>
                         </div>

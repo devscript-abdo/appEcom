@@ -11,7 +11,8 @@ class Setting extends Model
     use HasFactory;
 
     protected $fillable = ['key', 'value'];
-
+    
+    protected $table = 'notfound';
 
     public static function get($key)
     {

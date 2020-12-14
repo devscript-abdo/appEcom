@@ -10,17 +10,19 @@ class GroupService extends Servicer
 
 
     protected $model;
-
+    protected $auth;
     private static $_instance = null;
 
     /**
      * GroupService constructor.
      * @param GroupRepositoryInterface $group
+     * @param AuthService $auth
      */
-    public function __construct(GroupRepositoryInterface $group)
+    public function __construct(GroupRepositoryInterface $group, AuthService $auth)
     {
 
         $this->model = $group;
+        $this->auth = $auth;
     }
 
     /**
@@ -52,10 +54,11 @@ class GroupService extends Servicer
     {
 
         $form = $this->getRequest();
-        //array_merge($this->fields, ['addedby' => 'abdo'])
         $form->merge($data);
         $data = $form->validate($form->rules());
-        return $this->getInstance()->create($data);
+        $group = $this->getInstance()->create($data);
+        $group->{$this->authType()}()->associate($this->auth->getInstance()->loggedUserId())->save();
+        return $group;
     }
 
     /**
@@ -64,6 +67,7 @@ class GroupService extends Servicer
      */
     protected function update(array $data)
     {
+       // dd($data);
         $id = $data['id'];
         $form = $this->getRequest();
         $form->setId($id);

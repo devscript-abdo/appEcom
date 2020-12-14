@@ -1,6 +1,6 @@
 <?php
 
-add_action('elementor_pro/forms/new_record', function ($record, $ajax_handler) {
+/*add_action('elementor_pro/forms/new_record', function ($record, $ajax_handler) {
 
     $raw_fields = $record->get('fields');
     $fields = [];
@@ -24,10 +24,7 @@ add_action( 'elementor_pro/forms/form_submitted', function($module ) {
      
  $mydb = new wpdb('haymac_mous','wx66@ofg123456','haymac_mous','localhost');
  
- 
- /************************************************************************/
- /***************************************************************************/
- /**************************************************************************/
+
      
  
  
@@ -51,4 +48,4 @@ add_action( 'elementor_pro/forms/form_submitted', function($module ) {
  echo $mydb->suppress_errors;
  echo $mydb->show_errors;
  
- } );
+ } );*/

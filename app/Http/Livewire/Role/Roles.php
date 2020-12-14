@@ -14,7 +14,7 @@ class Roles extends Component
 
     public function render(RoleService $roleService)
     {
-        return view('livewire.role.roles',[
+        return view('livewire.role.__roles',[
             'roles'=>$roleService->getInstance()->All()
         ]);
     }
@@ -35,7 +35,7 @@ class Roles extends Component
             $this->resetInput();
             return $this->sendNotificationTobrowser([
                 'type' => 'success',
-                'message' => trans('deliveryData.delivery.added.ok')
+                'message' => trans('messages.added.ok')
             ]);
         }
         return false;
@@ -61,7 +61,7 @@ class Roles extends Component
 
                 [
                     'type' => 'warning',
-                    'message' => trans('leadData.lead.added.update.nochange')
+                    'message' => trans('messages.nochange')
                 ]
             );
 
@@ -77,7 +77,7 @@ class Roles extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('leadData.lead.added.update')
+                        'message' => trans('messages.updated.ok')
                     ]
                 );
             }
@@ -92,7 +92,7 @@ class Roles extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('leadData.lead.added.delete')
+                        'message' => trans('messages.deleted.ok')
                     ]
                 )
                 :
@@ -100,7 +100,7 @@ class Roles extends Component
 
                     [
                         'type' => 'error',
-                        'message' => trans('leadData.lead.delete.error')
+                        'message' => trans('messages.deleted.no')
                     ]
                 );
         }

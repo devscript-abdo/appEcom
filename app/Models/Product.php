@@ -79,7 +79,7 @@ class Product extends Model implements HasMedia
 
             return $this->moderator->fullname;
         }
-        return;
+        return null;
     }
 
     public function getCommandsAttribute()

@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('commandData.command.list') }}</h3>
+                    <h3 class="card-title">{{ __('tables.list') }}</h3>
 
                     <div class="card-options">
                         <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i
@@ -51,13 +51,13 @@
                             </tr>
                             <tr>
                                 <th class="w30">&nbsp;</th>
-                                <th>{{__('deliveryData.delivery.table.code')}}</th>
-                                <th>{{__('deliveryData.delivery.table.fullname')}}</th>
-                                <th>{{__('deliveryData.delivery.table.city')}}</th>
-                                {{--<th>{{__('deliveryData.delivery.table.address')}}</th>--}}
-                                <th>{{__('deliveryData.delivery.table.tele')}}</th>
-                                <th>{{__('deliveryData.delivery.table.email')}}</th>
-                                <th>{{__('deliveryData.delivery.table.status')}}</th>
+                                <th>{{__('tables.code')}}</th>
+                                <th>{{__('tables.fullname')}}</th>
+                                <th>{{__('tables.city')}}</th>
+                                {{--<th>{{__('tables.address')}}</th>--}}
+                                <th>{{__('tables.tele')}}</th>
+                                <th>{{__('tables.email')}}</th>
+                                <th>{{__('tables.status')}}</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

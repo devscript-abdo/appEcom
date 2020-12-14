@@ -88,4 +88,11 @@ class GroupCacheRepository  implements GroupRepositoryInterface
     {
         return $this->model->paginate($page);
     }
+    public function with($relations){
+
+        return $this->model->query()->with($relations);
+    }
+
+
+
 }

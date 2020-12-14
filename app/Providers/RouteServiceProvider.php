@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            
+
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
@@ -55,17 +55,17 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            Route::prefix(env('ADMIN_DASH_PREFIX'))
+            Route::prefix(env('ADMIN_DASH_PREFIX') ?? config('haymacproduction.ADMIN_DASH_PREFIX'))
                 ->middleware('web')
                 ->namespace($this->namespace)
                 ->as('admin.')
                 ->group(base_path('routes/adminRoutes.php'));
 
-            Route::prefix(env('ADMIN_DASH_PREFIX'))
+            Route::prefix(env('DILEVERY_DASH_PREFIX') ?? config('haymacproduction.DILEVERY_DASH_PREFIX'))
                 ->middleware('web')
                 ->namespace($this->namespace)
-                ->as('moderator.')
-                ->group(base_path('routes/moderatorRoutes.php'));
+                ->as('delivery.')
+                ->group(base_path('routes/deliveryRoutes.php'));
         });
     }
 

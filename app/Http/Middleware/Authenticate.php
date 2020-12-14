@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use function PHPUnit\Framework\throwException;
 
 class Authenticate extends Middleware
 {
@@ -19,8 +20,23 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
 
-        return in_array('auth:admin,moderator', $request->route()->action["middleware"])
-            ? route('admin.login') : route('login');
+
+      /*  return in_array('auth:admin,moderator', $request->route()->action["middleware"])
+            ? route('admin.login') : route('login');*/
+
+        $routes  = $request->route()->action['middleware'];
+
+        switch ($routes[1]){
+            case 'auth:delivery':
+                return  route('delivery.login');
+                break;
+            case 'auth:admin,moderator':
+                return  route('admin.login');
+                break;
+            default :
+                return route('login');
+        }
+
 
     }
 }

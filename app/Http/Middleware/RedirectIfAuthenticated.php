@@ -4,20 +4,25 @@ namespace App\Http\Middleware;
 
 use App\Providers\RouteServiceProvider;
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  ...$guards
-     * @return mixed
-     */
-    private $actions = ['admin' => 'admin.dash', 'moderator' => 'admin.leads'];
 
+    /**
+     * @var string[]
+     */
+    private $actions = ['admin' => 'admin.dash', 'moderator' => 'admin.leads','delivery'=>'delivery.dash'];
+
+    /**
+     * @param $request
+     * @param Closure $next
+     * @param mixed ...$guards
+     * @return Application|RedirectResponse|Redirector|mixed
+     */
     public function handle($request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;

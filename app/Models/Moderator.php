@@ -41,6 +41,14 @@ class Moderator extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'approved',
+        'addedBy',
+        'email_verified_at',
+        'locale',
+        'avatar'
     ];
 
     /**

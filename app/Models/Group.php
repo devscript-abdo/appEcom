@@ -12,9 +12,9 @@ class Group extends Model
 
     protected $fillable = ['name', 'slug', 'description', 'admin_id'];
 
-
-    public function setSlugAttribute($value)
+    public function setNameAttribute($value)
     {
+        $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
     public function setModeratorIdAttribute()
@@ -24,6 +24,11 @@ class Group extends Model
     public function admin()
     {
         return $this->belongsTo('App\Models\Admin', 'admin_id');
+    }
+
+    public function moderator(){
+
+        return $this->belongsTo('App\Models\Moderator', 'moderator_id');
     }
 
     public function leads()

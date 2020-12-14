@@ -5,10 +5,10 @@
                 <div class="card-body">
                     <form>
                             <div class="row clearfix">
-  
+
                                 <div class="col-lg-5 col-md-12">
                                     <div class="form-group">
-                                        <label class="form-label">{{__('leadData.lead.moderator')}}</label>
+                                        <label class="form-label">{{__('forms.moderator')}}</label>
                                         <select wire:model.defer="model" name="model" class="custom-select @error('model') is-invalid @enderror">
                                             <option wire:key="" value=""></option>
                                             @foreach($moderators as $moderator)
@@ -24,7 +24,7 @@
                                 </div>
                                 @csrf
                                 <div class="col-lg-12 mt-3">
-                                    <button wire:click.prevent="moveToAction('moderator')" class="btn btn-primary">{{__('leadData.lead.add.btn')}}</button>
+                                    <button wire:click.prevent="moveToAction('moderator')" class="btn btn-primary">{{__('action.add')}}</button>
                                     {{--<button  class="btn btn-default">Cancel</button>--}}
                                 </div>
                             </div>

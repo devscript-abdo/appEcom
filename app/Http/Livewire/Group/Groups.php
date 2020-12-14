@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\Group;
 
-use App\Models\Group;
+use App\Services\AuthService;
+use App\Services\GroupService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -12,117 +13,133 @@ class Groups extends Component
     public $isUpdate = false;
     public $isLoad = false;
 
-    public $groups;
     public $group;
 
     public $leads;
 
-    public $name;
-    public $description;
     public $groupId;
 
     public $authAdmin;
 
-    /*  public function render()
-    {
-        return view('livewire.role.roles');
-    }*/
+    public $fields = [
+        'name' => '',
+        'description' => '',
+    ];
 
-    public function mount(Group $group)
-    {
+    public function render(GroupService $groupService){
 
-        $this->groups = $group::with('admin')->get();
-        
-        $this->authAdmin = Auth::id();
+        return view('livewire.group.__groups',[
+
+            'groups' =>$groupService->getInstance()->with(['admin'])->get(),
+
+        ]);
+    }
+    public function mount(GroupService $groupService , AuthService $auth)
+    {
+        $this->authAdmin = $auth->getInstance()->loggedUser();
     }
 
-    public function submit()
+    public function submit(GroupService $groupService)
     {
-        $this->validate([
-            'name' => 'required|string|unique:groups',
-            'description' => 'nullable|string'
-        ]);
 
-        // Execution doesn't reach here if validation fails.
+        $lead = $groupService->execute('create', $this->fields);
 
-        // dd($this->authAdmin);
-        $group = Group::create([
-            'name' => $this->name,
-            'description' => $this->description,
-            'slug' => $this->name,
-            'admin_id' => $this->authAdmin
-
-        ]);
-
-        if ($group) {
-            $this->resetIput();
-            return redirect()->route('admin.groups');
+        if ($lead) {
+            $this->resetInput();
+            return $this->sendNotificationTobrowser([
+                'type' => 'success',
+                'message' => trans('messages.added.ok')
+            ]);
         }
+        return false;
+
     }
 
-    public function loadData($id)
+    public function loadData(GroupService $groupService,$id)
     {
 
-        $this->group = Group::findOrFail($id);
+        $this->group = $groupService->getInstance()->findOrFail($id);
         $this->isLoad = true;
         $this->leads = $this->group->leads()->get();
-        /* return view('livewire.group.__loadData', [
-            'leads' => $this->group->leads()->get()
-        ]);*/
     }
-    public function editGroup($id)
+    public function editGroup(GroupService $groupService,$id)
     {
-        $group = Group::findOrFail($id);
+        $group = $groupService->getInstance()->findOrFail($id);
         $this->groupId = $group->id;
-        $this->name = $group->name;
-        $this->description = $group->description;
+        $this->fields = $group->toArray();
         $this->isUpdate = true;
-        // return view('livewire.edit-admin');
+
     }
-    public function update()
+    public function update(GroupService $groupService)
     {
-        //dd('yyyy');
-        // The current user can update the post...
-        $this->validate([
+        $grp = $groupService->getInstance()->findOrFail($this->groupId);
 
-            'name' => 'required|string|unique:groups,name,' . $this->groupId,
-        ]);
+        if ($this->fields === $grp->toArray()) {
+            return $this->sendNotificationTobrowser(
 
+                [
+                    'type' => 'warning',
+                    'message' => trans('messages.nochange')
+                ]
+            );
 
-        // Execution doesn't reach here if validation fails.
+        }
+
         if ($this->groupId) {
-            $group = Group::findOrFail($this->groupId);
-            $group->update([
-                'name' => $this->name,
-                'description' => $this->description,
 
-            ]);
+            $grp = $groupService->execute('update', $this->fields);
 
-            if ($group) {
-                $this->resetIput();
-                return redirect()->route('admin.groups');
+            if ($grp) {
+                $this->resetInput();
+                return $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('messages.updated.ok')
+                    ]
+                );
             }
         }
+        return false ;
     }
-    public function deleteGroup($id)
+    public function deleteGroup(GroupService $groupService,$id)
     {
         if ($id) {
-            $group = Group::findOrFail($id);
-            $group->delete();
-            return redirect()->route('admin.groups');
+            $groupService->getInstance()->delete($id) ?
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('messages.deleted.ok')
+                    ]
+                )
+                :
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'error',
+                        'message' => trans('messages.deleted.no')
+                    ]
+                );
         }
     }
 
     public function cancel()
     {
         $this->isUpdate = false;
-        $this->resetIput();
+        $this->resetInput();
     }
 
     /**** private method ***/
-    private function resetIput()
+    private function resetInput()
     {
-        $this->name = null;
-        $this->description = null;
+        $this->fields = null;
+
     }
+
+    private function sendNotificationTobrowser($options = [])
+    {
+        $this->dispatchBrowserEvent('attachedToAction', $options);
+    }
+
 }

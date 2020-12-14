@@ -72,17 +72,17 @@ class DeliveryRepository implements DeliveryRepositoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array $attributes
      * @param int $id
      * @return bool|mixed
      */
-    public function update(array $data,int $id)
+    public function update(array $attributes, $id)
     {
         $data = $this->findOrFail($id);
 
         if ($data) {
 
-            $data->update($data);
+            $data->update($attributes);
 
             return 	$data;
         }

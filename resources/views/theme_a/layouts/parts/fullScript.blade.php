@@ -1,4 +1,5 @@
 <livewire:scripts />
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
 @stack('scripts')
 <script src="{{asset('assets/js/core.js')}}"></script>

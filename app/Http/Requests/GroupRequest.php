@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GroupRequest extends FormRequest
 {
+    private $groupId;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +16,7 @@ class GroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +26,18 @@ class GroupRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return isset($this->groupId) ?
+            [
+                'name' => ['required', 'string', Rule::unique('groups')->ignore($this->groupId)],
+                'description' => 'nullable|string',
+            ] : [
+                'name' => 'required|string|unique:groups',
+                'description' => 'nullable|string',
+            ];
+    }
+
+    public function setId($id)
+    {
+        $this->groupId = $id;
     }
 }

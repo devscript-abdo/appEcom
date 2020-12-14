@@ -69,7 +69,7 @@ class Admins extends Component
             $this->resetInput();
             return $this->sendNotificationTobrowser([
                 'type' => 'success',
-                'message' => trans('adminCrud.admin.added.ok')
+                'message' => trans('messages.added.ok')
             ]);
         }
         return false;
@@ -104,7 +104,7 @@ class Admins extends Component
                 $this->resetInput();
                 return $this->sendNotificationTobrowser([
                     'type' => 'success',
-                    'message' => trans('adminCrud.admin.added.ok')
+                    'message' => trans('messages.added.ok')
                 ]);
             }
         }
@@ -132,7 +132,7 @@ class Admins extends Component
 
                 [
                     'type' => 'success',
-                    'message' => trans('adminCrud.admin.delete.success')
+                    'message' => trans('messages.deleted.ok')
                 ]
             )
             :
@@ -140,7 +140,7 @@ class Admins extends Component
 
                 [
                     'type' => 'error',
-                    'message' => trans('adminCrud.admin.delete.error')
+                    'message' => trans('messages.deleted.no')
                 ]
             );
     }

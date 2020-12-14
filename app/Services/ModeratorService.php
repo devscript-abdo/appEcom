@@ -5,9 +5,8 @@ namespace App\Services;
 use App\Http\Requests\ModeratorRequest;
 use App\Repositories\Moderator\ModeratorRepositoryInterface;
 
-class ModeratorService
+class ModeratorService extends Servicer
 {
-
 
     protected $model;
 
@@ -19,7 +18,7 @@ class ModeratorService
      */
     public function __construct(ModeratorRepositoryInterface $moderator)
     {
-        
+
         $this->model = $moderator;
     }
 
@@ -44,18 +43,7 @@ class ModeratorService
         return self::$_instance;
     }
 
-    /**
-     * @param $method
-     * @param $data
-     */
-    public function execute($method, $data)
-    {
 
-        if (method_exists($this, $method)) {
-            return $this->$method($data);
-        }
-        return;
-    }
 
     /**
      * @param array $data
@@ -63,9 +51,8 @@ class ModeratorService
      */
     protected function create(array $data)
     {
-
         $form = $this->getRequest();
-        //array_merge($this->fields, ['addedby' => 'abdo'])
+
         $form->merge($data);
         $data = $form->validate($form->rules());
         return $this->getInstance()->create($data);

@@ -88,4 +88,9 @@ class ModeratorCacheRepository  implements ModeratorRepositoryInterface
     {
         return $this->model->paginate($page);
     }
+
+    public function with(array $relations)
+    {
+        return $this->query()->with($relations);
+    }
 }

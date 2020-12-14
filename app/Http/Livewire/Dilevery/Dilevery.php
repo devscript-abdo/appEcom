@@ -86,7 +86,7 @@ class Dilevery extends Component
 
                 [
                     'type' => 'warning',
-                    'message' => trans('leadData.lead.added.update.nochange')
+                    'message' => trans('messages.nochange')
                 ]
             );
 
@@ -102,7 +102,7 @@ class Dilevery extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('leadData.lead.added.update')
+                        'message' => trans('messages.updated.ok')
                     ]
                 );
             }

@@ -31,8 +31,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'App\Repositories\Moderator\ModeratorRepositoryInterface',
-            //'App\Repositories\Moderator\ModeratorRepository',
-            'App\Repositories\Moderator\ModeratorCacheRepository'
+            'App\Repositories\Moderator\ModeratorRepository',
+            //'App\Repositories\Moderator\ModeratorCacheRepository'
         );
         $this->app->bind(
             'App\Repositories\Delivery\DeliveryRepositoryInterface',
@@ -47,7 +47,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Repositories\Category\CategoryRepositoryInterface',
             'App\Repositories\Category\CategoryRepository',
-            'App\Repositories\Category\CategoryCacheRepository'
+           // 'App\Repositories\Category\CategoryCacheRepository'
         );
 
         $this->app->bind(
@@ -58,8 +58,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'App\Repositories\Group\GroupRepositoryInterface',
-            //'App\Repositories\Group\GroupRepository',
-            'App\Repositories\Group\GroupCacheRepository'
+            'App\Repositories\Group\GroupRepository',
+            //'App\Repositories\Group\GroupCacheRepository'
         );
 
         $this->app->bind(
@@ -70,6 +70,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Repositories\Role\RoleRepositoryInterface',
             'App\Repositories\Role\RoleRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\Treasury\TreasuryRepositoryInterface',
+            'App\Repositories\Treasury\TreasuryRepository'
         );
     }
 

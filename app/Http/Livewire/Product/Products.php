@@ -3,14 +3,19 @@
 namespace App\Http\Livewire\Product;
 
 use App\Http\Requests\ProductRequest;
-use App\Repositories\Category\CategoryRepositoryInterface;
+
+use App\Services\AuthService;
+use App\Services\CategoryService;
+use App\Services\ProductService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 use Livewire\Component;
 
 use Livewire\WithPagination;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use App\Repositories\LoggedGuard\LoggedGuardRepositoryInterface;
-use App\Repositories\Product\ProductRepositoryInterface;
+
 use App\Traits\ItemsQuery;
 
 use Illuminate\Support\Facades\Gate;
@@ -44,37 +49,42 @@ class Products extends Component
     protected $model;
 
     protected $paginationTheme = 'bootstrap';
-    protected $updatesQueryString = ['filter'];
+   // protected $updatesQueryString = ['filter'];
 
     public function mount(
-        LoggedGuardRepositoryInterface $loggedUser,
-        ProductRepositoryInterface $product,
-        CategoryRepositoryInterface $category
+        AuthService $loggedUser,
+        ProductService $product,
+        CategoryService $category
     ) {
         //$this->categories = $category->all();
-        $this->categories = $category->selectWithType(['name', 'id'], 'products');
+        $this->categories = $category->getInstance()->selectWithType(['name', 'id'], 'products');
         $this->model = $product;
-        $this->authAdmin = $loggedUser->loggedUser();
+        $this->authAdmin = $loggedUser->getInstance()->loggedUser();
     }
 
 
-    public function render(ProductRepositoryInterface $product)
+    /**
+     * @param ProductService $product
+     * @return Application|Factory|View
+     */
+    public function render(ProductService $product)
     {
 
         return view('livewire.product.products', [
 
-            'products' =>    $product->withRelations(['category', 'admin','commands'])
+            'products' =>    $product->getInstance()->withRelations(['category', 'admin','commands'])
             ->withCount('commands')
             ->paginate(10),
             // 'products' =>    $product->paginate(10)
         ]);
     }
+
+
     public function setfilter()
     {
-        if (!$this->data) {
+        if (!$this->data || !isset($this->data)) {
 
             return $this->sendNotificationTobrowser(
-                'attachedToAction',
                 [
                     'type' => 'warning',
                     'message' => trans('leadData.lead.filter.warning')
@@ -82,7 +92,7 @@ class Products extends Component
             );
         }
 
-        if ($this->data && array_key_exists('from_to', $this->data)) {
+        if (isset($this->data) && is_array($this->data) && array_key_exists('from_to', $this->data)) {
             $this->data['from_to'] = implode(',', array_reverse($this->data['from_to']));
         }
         $this->data = array_filter(array_map('trim', $this->data));
@@ -91,25 +101,29 @@ class Products extends Component
         $this->data = null;
     }
 
-    public function submit(ProductRepositoryInterface $newproduct, LoggedGuardRepositoryInterface $auth)
+    /**
+     * @param ProductService $newproduct
+     * @param AuthService $auth
+     */
+    public function submit(ProductService $newproduct, AuthService $auth)
     {
 
-
-        $relation = $auth->getLoggedUserType();
+        $relation = $auth->getInstance()->getLoggedUserType();
         $form = new ProductRequest();
         $form->merge($this->fields);
         $data = $form->validate($form->rules());
 
-        $product = $newproduct->create($data);
+        $product = $newproduct->getInstance()->create($data);
         if ($product) {
 
-            $product->$relation()->associate($auth->loggedUserId())->save();
+            $product->$relation()->associate($auth->getInstance()->loggedUserId())->save();
 
             $this->resetIput();
 
-            return $this->sendNotificationTobrowser(['type' => 'success', 'message' => trans('productData.product.added.ok')]);
+            return $this->sendNotificationTobrowser(['type' => 'success', 'message' => trans('messages.added.ok')]);
         }
     }
+
 
     private function permission()
     {
@@ -127,28 +141,37 @@ class Products extends Component
             return;
         }
     }
-    public function editProduct(ProductRepositoryInterface $edit, $id)
+
+    /**
+     * @param ProductService $edit
+     * @param $id
+     */
+    public function editProduct(ProductService $edit, $id)
     {
-        $product = $edit->findOrFail($id);
+        $product = $edit->getInstance()->findOrFail($id);
 
         $this->productId = $product->id;
         $this->isUpdate = true;
         $this->fields = $product->toArray();
     }
-    public function update(ProductRepositoryInterface $upProduct)
+
+    /**
+     * @param ProductService $upProduct
+     */
+    public function update(ProductService $upProduct)
     {
 
-        $product = $upProduct->findOrFail($this->productId);
+        $product = $upProduct->getInstance()->findOrFail($this->productId);
 
         if ($this->fields === $product->toArray()) {
-            $this->sendNotificationTobrowser(
+          return  $this->sendNotificationTobrowser(
 
                 [
                     'type' => 'warning',
-                    'message' => trans('productData.product.added.update.nochange')
+                    'message' => trans('messages.nochange')
                 ]
             );
-            return;
+
         }
 
         $form = new ProductRequest();
@@ -158,7 +181,7 @@ class Products extends Component
 
         if ($this->productId) {
 
-            $product =  $upProduct->update($data, $this->productId);
+            $product =  $upProduct->getInstance()->update($data, $this->productId);
 
             if ($product) {
                 // event(new LeadCreated($lead));
@@ -167,22 +190,28 @@ class Products extends Component
 
                     [
                         'type' => 'success',
-                        'message' => trans('productData.product.added.update')
+                        'message' => trans('messages.updated.ok')
                     ]
                 );
                 // return redirect()->route('admin.leads');
             }
         }
     }
-    public function deleteProduct(ProductRepositoryInterface $deleteProduct, $id)
+
+    /**
+     * @param ProductService $deleteProduct
+     * @param $id
+     * @return bool|void
+     */
+    public function deleteProduct(ProductService $deleteProduct, $id)
     {
         if ($id) {
-            return  $deleteProduct->delete($id) ?
+            return  $deleteProduct->getInstance()->delete($id) ?
                 $this->sendNotificationTobrowser(
 
                     [
                         'type' => 'success',
-                        'message' => trans('productData.product.added.delete')
+                        'message' => trans('messages.deleted.ok')
                     ]
                 )
                 :
@@ -190,10 +219,11 @@ class Products extends Component
 
                     [
                         'type' => 'error',
-                        'message' => trans('productData.product.delete.error')
+                        'message' => trans('messages.deleted.no')
                     ]
                 );
         }
+        return false;
     }
 
     public function cancel()
@@ -211,7 +241,10 @@ class Products extends Component
     /*****Multi action  Elmarzougui Abdelghafour at haymacproduction */
 
 
-    public function deleteMultiProducts(ProductRepositoryInterface $products)
+    /**
+     * @param ProductService $products
+     */
+    public function deleteMultiProducts(ProductService $products)
     {
         if (!$this->selected) {
 
@@ -223,10 +256,10 @@ class Products extends Component
                 ]
             );
 
-            return;
+
         }
         if ($this->selected) {
-            $products->destroy(array_filter($this->selected));
+            $products->getInstance()->destroy(array_filter($this->selected));
             return $this->sendNotificationTobrowser(
 
                 [
@@ -246,8 +279,12 @@ class Products extends Component
         //return redirect(route('admin.leads'))->withError('Sorry problem detected');
     }
 
+    /**
+     * @param array $options
+     */
     private function sendNotificationTobrowser($options = [])
     {
         $this->dispatchBrowserEvent('attachedToAction', $options);
     }
+
 }

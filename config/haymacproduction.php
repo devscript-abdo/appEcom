@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Author    : Elmarzougui Abdelghafour (Haymacproduction)
+     * Author    : Elmarzougui Abdelghafour (Haymacproduction)
  * website   : https://www.elmarzougui.com
  * linkedin  : https://www.linkedin.com/in/devscript/
  * facebook  : https://www.facebook.com/devscript
@@ -11,4 +12,10 @@
 return [
 
     'getFrom' => 'cache',
+
+    /****Admin Url */
+    
+    'ADMIN_DASH_PREFIX' => env('ADMIN_DASH_PREFIX', 'admin'),
+
+    'DILEVERY_DASH_PREFIX' => env('DILEVERY_DASH_PREFIX', 'app')
 ];

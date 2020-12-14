@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::webhooks('webhooks');
 
-Route::get('/register', [HomeController::class, 'registerGet'])->name('register');
+Route::post('/hooker',[TestController::class,'postHook']);
+Route::get('/te',function(){
+    return app(App\Settings\GeneralSettings::class)->hookCSRF;
+});
+
+Route::get('/register', [HomeController::class, 'registerGet'])->name('registerGet');
 Route::post('/register', [HomeController::class, 'register'])->name('register');
 
-Route::get('/good', [HomeController::class, 'goodP'])->name('good');
+Route::get('/good', [HomeController::class, 'goodP'])->name('goodGet');
 Route::post('/good', [HomeController::class, 'good'])->name('good');
+
+
+/**** */
+
 
 

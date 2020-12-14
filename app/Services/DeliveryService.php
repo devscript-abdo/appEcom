@@ -37,7 +37,7 @@ class DeliveryService extends Servicer
 
         if (is_null(self::$_instance)) {
 
-            self::$_instance = $this->model->getInstance();
+            self::$_instance = $this->model;
         }
 
         return self::$_instance;
@@ -63,21 +63,13 @@ class DeliveryService extends Servicer
         return $this->getInstance()->create($data);
     }
 
+
     /**
      * @param array $data
-     * @return bool
+     * @return mixed
      */
     protected function update(array $data)
     {
-       // dd($data);
-        if(is_null($data) || !is_array($data)){
-
-            return false ;
-        }
-        if(is_null($data['id']) || !is_int($data['id'])){
-
-            return false ;
-        }
         $id = $data['id'];
         $form = $this->getRequest();
         $form->setId($id);

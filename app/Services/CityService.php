@@ -39,4 +39,29 @@ class CityService extends Servicer
         return new CityRequest();
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    protected function create(array $data)
+    {
+        $form = $this->getRequest();
+        $form->merge($data);
+        $data = $form->validate($form->rules());
+        return $this->getInstance()->create($data);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    protected function update(array $data)
+    {
+        $id = $data['id'];
+        $form = $this->getRequest();
+        $form->setId($id);
+        $form->merge($data);
+        $data = $form->validate($form->rules());
+        return $this->getInstance()->update($data, $id);
+    }
 }

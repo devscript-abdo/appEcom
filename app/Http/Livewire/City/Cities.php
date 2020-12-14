@@ -2,99 +2,118 @@
 
 namespace App\Http\Livewire\City;
 
-use App\Models\City;
+use App\Services\CityService;
 use Livewire\Component;
 
 class Cities extends Component
 {
-    public $cities;
+
     public $isUpdate = false;
 
-    public $name;
+    public $fields = ['name'=>''];
     public $cityId;
 
-    /*  public function render()
-    {
-        return view('livewire.role.roles');
-    }*/
-
-    public function mount(City $city)
+    public function render(CityService $cityService)
     {
 
-        $this->cities = $city::select(['name'])->get();
+        return view('livewire.city.__cities',[
+            'cities'=>$cityService->getInstance()->getSelect(['name','id','pay'])
+        ]);
     }
 
-    public function submit()
+    public function submit(CityService $cityService)
     {
-        $this->validate([
-            'name' => 'required|string|unique:cities',
-        ]);
-
-        // Execution doesn't reach here if validation fails.
-
-        $city = City::create([
-            'name' => $this->name,
-            'slug' => $this->name
-        ]);
+        $city = $cityService->execute('create', $this->fields);
 
         if ($city) {
-            $this->resetIput();
-            return redirect()->route('admin.cities');
-        }
-    }
-
-
-    public function editCity($id)
-    {
-        $city = City::findOrFail($id);
-        $this->cityId = $city->id;
-        $this->name = $city->name;
-
-        $this->isUpdate = true;
-        // return view('livewire.edit-admin');
-    }
-    public function update()
-    {
-        //dd('yyyy');
-        // The current user can update the post...
-        $this->validate([
-
-            'name' => 'required|string|unique:cities,name,' . $this->cityId,
-        ]);
-
-
-        // Execution doesn't reach here if validation fails.
-        if ($this->cityId) {
-            $city = City::findOrFail($this->cityId);
-            $city->update([
-                'name' => $this->name,
-
+            $this->resetInput();
+            return $this->sendNotificationTobrowser([
+                'type' => 'success',
+                'message' => trans('messages.added.ok')
             ]);
+        }
+        return false;
+    }
+
+
+    public function editCity(CityService $cityService,$id)
+    {
+         $city = $cityService->getInstance()->findOrFail($id);
+         $this->cityId = $city->id;
+         $this->isUpdate = true;
+         $this->fields = $city->toArray();
+    }
+    public function update(CityService $cityService)
+    {
+        $city = $cityService->getInstance()->findOrFail($this->cityId);
+
+        if ($this->fields === $city->toArray()) {
+            return $this->sendNotificationTobrowser(
+
+                [
+                    'type' => 'warning',
+                    'message' => trans('messages.nochange')
+                ]
+            );
+
+        }
+
+        if ($this->cityId) {
+
+            $city = $cityService->execute('update', $this->fields);
 
             if ($city) {
-                $this->resetIput();
-                return redirect()->route('admin.cities');
+                $this->resetInput();
+                return $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('messages.updated.ok')
+                    ]
+                );
             }
         }
+        return false;
     }
-    public function deleteCity($id)
+    public function deleteCity(CityService $cityService,$id)
     {
         if ($id) {
-            $city = City::findOrFail($id);
-            $city->delete();
-            return redirect()->route('admin.cities');
+            $cityService->getInstance()->delete($id) ?
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'success',
+                        'message' => trans('messages.deleted.ok')
+                    ]
+                )
+                :
+                $this->sendNotificationTobrowser(
+
+                    [
+                        'type' => 'error',
+                        'message' => trans('messages.deleted.no')
+                    ]
+                );
         }
+    }
+
+    /**** private method ***/
+    private function resetInput()
+    {
+        $this->fields = null;
+
     }
 
     public function cancel()
     {
         $this->isUpdate = false;
-        $this->resetIput();
+        $this->isCreate = true;
+        $this->resetInput();
     }
 
-    /**** private method ***/
-    private function resetIput()
+
+    private function sendNotificationTobrowser($options = [])
     {
-        $this->name = null;
+        $this->dispatchBrowserEvent('attachedToAction', $options);
     }
 }

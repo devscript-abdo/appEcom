@@ -3,7 +3,7 @@
 namespace App\Repositories\Group;
 
 use App\Models\Group;
-use Illuminate\Database\Eloquent\Collection;
+
 
 class GroupRepository implements GroupRepositoryInterface
 {
@@ -16,7 +16,7 @@ class GroupRepository implements GroupRepositoryInterface
 		$this->model = $model;
 	}
 
-	public function all(): Collection
+	public function all()
 	{
 		return $this->model->all();
 	}
@@ -67,4 +67,9 @@ class GroupRepository implements GroupRepositoryInterface
 	{
 		return $this->model->select($fields)->get();
 	}
+
+    public function with(array $relations){
+
+        return $this->model->query()->with($relations);
+    }
 }

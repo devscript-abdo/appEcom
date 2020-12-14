@@ -44,7 +44,9 @@ class Delivery extends Authenticatable
         'approved',
         'moderator_id',
         'addedBy',
-        //'email_verified_at'
+        'email_verified_at',
+        'locale',
+        'avatar'
     ];
 
     /**
@@ -71,6 +73,9 @@ class Delivery extends Authenticatable
     }
 
 
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return "{$this->nom} {$this->prenom}";

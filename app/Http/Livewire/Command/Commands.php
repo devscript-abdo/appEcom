@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Command;
 
+use App\Notifications\RealTimeNotification;
+use App\Services\AuthService;
 use App\Services\DeliveryService;
 use Livewire\Component;
 
@@ -29,28 +31,35 @@ class Commands extends Component
         'product' => '',
         'command_quantity' => '',
         'command_price' => '',
-        'notes'=>'',
-        'status'=>''
+        'notes' => '',
+        'status' => ''
 
     ];
 
-    public function render(CommandService $commandService,DeliveryService $deliveryService)
+    public function render(CommandService $commandService, DeliveryService $deliveryService, AuthService $authService)
     {
+        $auth = $authService->getInstance()->getLoggedUserType();
+
         $this->commands = $commandService->auth()
             ->commands()
             ->with('product')
             ->get();
+        if ($auth !== 'delivery') {
+            $this->users = $deliveryService->getInstance()
+                ->with(['ville'])
+                ->select(['nom', 'prenom', 'id', 'city_id'])
+                ->get();
+            return view('livewire.command._commands', [
+                'commands' => $this->commands,
+                'users' => $this->users
 
-        $this->users = $deliveryService->getInstance()
-            ->with(['ville'])
-            ->select(['nom','prenom', 'id', 'city_id'])
-            ->get();
+            ]);
+        } else {
 
-        return view('livewire.command._commands', [
-            'commands' => $this->commands,
-            'users'=> $this->users
-
-        ]);
+            return view('livewire.command.___commands', [
+                'commands' => $this->commands,
+            ]);
+        }
     }
 
     public function editCommand(CommandService $commandService, $id)
@@ -81,14 +90,15 @@ class Commands extends Component
         return false;
     }
 
-    public function deleteCommand(CommandService $commandService, $id){
+    public function deleteCommand(CommandService $commandService, $id)
+    {
 
         $command = $commandService->getInstance()->findOrFail($id);
- 
+
         if ($command) {
 
-           $commandService->getInstance()->destroy($id);
-       
+            $commandService->getInstance()->destroy($id);
+
             return $this->sendNotificationTobrowser(
 
                 [
@@ -98,6 +108,7 @@ class Commands extends Component
             );
         }
     }
+
     public function deleteCommands(CommandService $commandService)
     {
         if (!$this->selected) {
@@ -152,7 +163,7 @@ class Commands extends Component
         return false;
     }
 
-    public function moveToAction(CommandService $commandService, $action)
+    public function moveToAction(CommandService $commandService, DeliveryService $deliveryService, $action)
     {
 
         if (!$this->selected || !$action) {
@@ -167,11 +178,12 @@ class Commands extends Component
         }
 
         $selects = $commandService->getInstance()->find(array_filter($this->selected));
-
+      //  $user = $deliveryService->getInstance()->find($this->delivery);
         if ($selects) {
 
             foreach ($selects as $select) {
                 $select->update(['delivery_id' => intval($this->delivery)]);
+              //  $user->notify(new RealTimeNotification('New Command Here '));
             }
             return $this->sendNotificationTobrowser(
 

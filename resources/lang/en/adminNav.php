@@ -24,5 +24,7 @@ return [
     'admin.settings'=>'Settings',
     'admin.products'=>'Products',
     'admin.commands'=>'Commands',
-    'admin.deliveries'=>'Deliveries'
+    'admin.deliveries'=>'Deliveries',
+    'admin.categories'=>'Categories',
+    'admin.tresore'=>'Trésorerie'
 ];

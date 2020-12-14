@@ -2,19 +2,31 @@
   <dictionary name="Abdelghafour">
     <words>
       <w>abdelghafour</w>
+      <w>addresse</w>
       <w>alloweds</w>
       <w>authenticatable</w>
+      <w>banque</w>
       <w>barryvdh</w>
       <w>clearfix</w>
       <w>commande</w>
+      <w>dashborad</w>
+      <w>datas</w>
       <w>dbal</w>
       <w>debugbar</w>
+      <w>depense</w>
+      <w>depenses</w>
+      <w>devlopper</w>
       <w>dilevery</w>
       <w>dompdf</w>
+      <w>dépenses</w>
       <w>egulias</w>
       <w>elmarzougui</w>
+      <w>enderror</w>
+      <w>exeptionnelle</w>
       <w>fideloper</w>
       <w>fillable</w>
+      <w>fisrt</w>
+      <w>fname</w>
       <w>fullname</w>
       <w>fzaninotto</w>
       <w>guzzlehttp</w>
@@ -22,22 +34,33 @@
       <w>hpoutre</w>
       <w>linkedin</w>
       <w>livewire</w>
+      <w>lname</w>
       <w>maatwebsite</w>
       <w>mcamara</w>
       <w>medialibrary</w>
+      <w>newproduct</w>
+      <w>nochange</w>
+      <w>nomcomplet</w>
+      <w>novembre</w>
       <w>nunomaduro</w>
       <w>opératrices</w>
       <w>predis</w>
       <w>prenom</w>
       <w>produit</w>
+      <w>recettes</w>
       <w>servicer</w>
       <w>setfilter</w>
+      <w>societe</w>
       <w>spatie</w>
       <w>tele</w>
       <w>tobrowser</w>
       <w>todos</w>
+      <w>tresore</w>
+      <w>trésorerie</w>
       <w>upleads</w>
       <w>villes</w>
+      <w>webhook</w>
+      <w>websockets</w>
     </words>
   </dictionary>
 </component>
